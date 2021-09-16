@@ -1,0 +1,118 @@
+---
+title: "Looking at the Traces from Bishnu"
+author: "Brady Johnston"
+date: "2021-09-16"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup}
+library(tidyverse)
+```
+
+
+## Introduction
+
+Making a fret plotting function to check the data.
+
+```{r}
+fl <- "~/Dropbox/BondLab/Data/smFRET/bishnu_brady_shared/1 nM/"
+
+fretplot_function <- function(x) {
+  df <- read_table(x, 
+                   col_types = cols(),
+             col_names = c("frame", "don", "acc", "fret", "state"))
+  
+  df <- df %>% 
+    pivot_longer(cols = !contains("frame"))
+  
+  signal_plot <- df %>% 
+    filter(name %in% c("don", "acc")) %>% 
+    ggplot(aes(frame, value, colour = name)) + 
+    geom_line() + 
+    theme_classic() + 
+    labs(y = "Fluoroscent signal") +
+    guides(colour = "none") +
+    theme(axis.text.x = element_blank(), 
+          axis.ticks.x = element_blank(), 
+          axis.title.x = element_blank())
+  
+  fret_plot <- df %>% 
+    filter(!(name %in% c("don", "acc"))) %>% 
+    ggplot(aes(frame, value, linetype = name)) + 
+    geom_line() + 
+    scale_y_continuous(breaks = 0:5*0.2) +
+    coord_cartesian(ylim = c(0,1)) +
+    labs(y = "FRET", 
+         x = "Frame") +
+    theme_classic() + 
+    scale_colour_manual(values = c("black", "midnightblue"))
+  
+  
+  
+  final_plot <- patchwork::wrap_plots(signal_plot, fret_plot, ncol = 1)
+  final_plot  
+}
+
+
+```
+
+Plot one of the .dat files.
+
+```{r}
+list.files(fl, ".dat", full.names = TRUE)[3] %>% fretplot_function
+```
+
+Looks good, lets have a look what is in the merged files.
+
+```{r}
+list.files(here::here(fl, "merged"), full.names = TRUE) %>% 
+  .[1] %>% 
+  fretplot_function()
+```
+
+Seems that they are just more of the same? Unsure what the difference between them are.
+
+```{r}
+list.files(here::here(fl, "merged"), full.names = TRUE) %>% 
+  .[100] %>% 
+  fretplot_function()
+```
+
+Let's try remaking some of the plots that bishnu sent through.
+
+```{r}
+files <- list.files(here::here(fl, "merged"), full.names = TRUE)
+
+read_all_frames <- function(x) {
+
+  lapply(seq_along(x), function(x) {
+    df <- read_table(files[x], 
+                     col_types = cols(),
+                     col_names = c("frame", "don", "acc", "fret", "state"))
+    df$mol <- x
+    
+    df
+  }) %>% 
+    do.call(rbind, .) -> combined_mols
+  
+  combined_mols
+}
+
+df <- read_all_frames(list.files(fl, full.names = TRUE))
+
+df
+
+```
+
+Looking good, now to try and make the plots.
+```{r}
+df %>% 
+  ggplot(aes(frame, fret)) + 
+  # geom_point(alpha = 0.02) + 
+  # xlim(c(0,1)) +
+  stat_density2d(geom = "raster", fill = aes(..density..)) +
+  coord_cartesian(ylim = c(0,1))
+```
+
