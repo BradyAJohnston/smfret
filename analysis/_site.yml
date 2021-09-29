@@ -1,4 +1,4 @@
-name: "smFRET"
+name: "smFRET Analysis"
 output_dir: ../docs
 navbar:
   title: "smFRET"

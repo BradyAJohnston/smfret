@@ -2,7 +2,9 @@
 title: "Looking at the Traces from Bishnu"
 author: "Brady Johnston"
 date: "2021-09-16"
-output: workflowr::wflow_html
+output: 
+    workflowr::wflow_html:
+      code_folding: hide
 editor_options:
   chunk_output_type: console
 ---
@@ -85,9 +87,9 @@ Let's try remaking some of the plots that bishnu sent through.
 ```{r}
 files <- list.files(here::here(fl, "merged"), full.names = TRUE)
 
-read_all_frames <- function(x) {
+read_all_frames <- function(files) {
 
-  lapply(seq_along(x), function(x) {
+  lapply(seq_along(files), function(x) {
     df <- read_table(files[x], 
                      col_types = cols(),
                      col_names = c("frame", "don", "acc", "fret", "state"))
@@ -100,7 +102,7 @@ read_all_frames <- function(x) {
   combined_mols
 }
 
-df <- read_all_frames(list.files(fl, full.names = TRUE))
+df <- read_all_frames(list.files(fl, full.names = TRUE, pattern = ".dat"))
 
 df
 
@@ -108,11 +110,251 @@ df
 
 Looking good, now to try and make the plots.
 ```{r}
+time_density_plot <- function(data) {
+  data %>% 
+    filter(fret > 0, fret < 1) %>% 
+    mutate(frame = frame / 5) %>% 
+    ggplot(aes(frame, fret)) + 
+    geom_point(alpha = 0.1, colour = "gray30") +
+    stat_density_2d(aes(fill = ..ndensity.., alpha = ..ndensity..),
+                    geom = "raster",
+                    n = 200,
+                    contour = FALSE) +
+    geom_density_2d(bins = 10, colour = "white", contour_var = "ndensity") +
+    scale_fill_viridis_c(option = "D",
+                         direction = 1,
+                         limits = c(0.002, NA),
+                         # trans = "log10",
+                         na.value = NA) +
+    scale_alpha_continuous(range = c(0.01, 0.8)) +
+    coord_cartesian(ylim = c(0,1), xlim = c(0,100)) + 
+    guides(alpha = "none", 
+           fill = "none") +
+    # theme_light() +
+    theme_linedraw() +
+    labs(x = "Time (s)", y = "FRET") +
+    scale_x_continuous(expand = c(0,0)) + 
+    scale_y_continuous(expand = c(0,0))
+  
+}
+```
+
+```{r}
+plot_1nm <- df %>% 
+  time_density_plot() + 
+  labs(title = "1 nM Target")
+```
+
+```{r}
+files_01 <-
+  list.files(
+    "~/Dropbox/BondLab/Data/smFRET/bishnu_brady_shared/100 pM_RNA1/",
+    pattern = ".dat",
+    full.names = TRUE
+  )
+
+df_01 <- read_all_frames(files_01)
+
+plot_1pm <- df_01 %>% 
+  time_density_plot() + 
+  labs(title = "100 pM Target")
+```
+
+
+```{r , fig.height=4, fig.cap="Time-density plots for subpopulations of molecules."}
+patchwork::wrap_plots(plot_1nm, plot_1pm)
+```
+
+It seems that the plots from Bishnu's data can be replicated. Now I just need to do so with the the other traces to get a more complete picture.
+
+
+## Plotting the Static Experiments
+
+Below is the FRET data from the static experiments, where the molecules were incubated with their RNA target for 15 minutes and then the movies were taken.
+
+```{r static-plot}
+fl <- list.files(
+  "~/Dropbox/BondLab/Data/smFRET/bishnu_brady_shared/Bishnu/RNA1_target/", 
+  full.names = TRUE, 
+  pattern = ".dat"
+  )
+
+read_fun <- function(file) {
+  some_list <- pbapply::pblapply(seq_along(file), function(x) {
+    df <- readr::read_table(file[x], 
+                            col_types = readr::cols(), 
+                            col_names = c("frame", "don", "acc", "fret", "state"))
+    df$id <- x
+    df
+  })
+  
+  do.call(rbind, some_list)
+}
+
+df <- read_fun(fl)
+
 df %>% 
-  ggplot(aes(frame, fret)) + 
-  # geom_point(alpha = 0.02) + 
-  # xlim(c(0,1)) +
-  stat_density2d(geom = "raster", fill = aes(..density..)) +
-  coord_cartesian(ylim = c(0,1))
+  time_density_plot()
+```
+
+## Plotting the Live-Flow experiments.
+
+This is the live-flow experiments, where the movies movies were recored, as the RNA was injected into the flow-cell to capture the live binding events of the proteins.
+```{r}
+#| fig.height = 8,
+#| fig.retina = 2
+
+fl2 <- list.files(
+  "~/Dropbox/BondLab/Data/smFRET/bishnu_brady_shared/Bishnu/RNA1_target/liveflow_RNA1/",
+  full.names = TRUE
+  )
+
+live_rna01 <- read_fun(fl2)
+
+live_rna01 %>% 
+  time_density_plot()
+```
+
+
+# Applying to all of the RNA
+
+Need to apply this approach to all of the RNA to replicated all of their plots. To do that we'll need to read in each of the sets of plots.
+```{r read-all}
+paths <- c(
+  "data/smfret-data/RNA1_target",
+  "data/smfret-data/RNA2",
+  "data/smfret-data/RNA3",
+  "data/smfret-data/RNA4",
+  "data/smfret-data/RNA5",
+  "data/smfret-data/RNA6",
+  "data/smfret-data/RNA7",
+  "data/smfret-data/RNA8",
+  "data/smfret-data/RNA9",
+  "data/smfret-data/RNA10",
+  "data/smfret-data/RNA11",
+  "data/smfret-data/RNA12",
+  "data/smfret-data/RNA13"
+)
+list.files(paths[8], ".dat")
+
+some_list <- pbapply::pblapply(seq_along(paths), \(x) {
+  df <- read_fun(list.files(paths[x], ".dat", full.names = TRUE))
+  df$rna <- x
+  df
+})
+
+df <- do.call(rbind, some_list[c(1:7, 9:13)])
+
+df %>% 
+  time_density_plot() + 
+  facet_wrap(~rna)
+```
+
+Now we have read all of it in, and are able to get time-density plots, lets try to replicate the transition-density plots (TDP). To achieve this, need to achieve this I need to classify the transitions myself.
+
+```{r transitions}
+# make the transitions df
+trans <- df %>% 
+  group_by(rna, id) %>% 
+  mutate(
+    from = state,
+    to = lead(from), # get what the current state will transition to (next row)
+    new_state = lag(from) != from, 
+    new_state = if_else(is.na(new_state), FALSE, new_state),
+    state_no = 1 + cumsum(new_state)
+  ) %>% 
+  group_by(rna, id, state_no) %>% 
+  summarise(
+    frames = n(),         # number of frames in this state
+    time = n() / 5,       # numer of frames in seconds (frames = 0.2 s)
+    from = last(from),    # get the last entry in from
+    to = last(to)         # get the last entry in to
+  )
+
+trans
+```
+
+### Testing plotting of TDP
+
+Replicate the transition-density plots with the code below.
+
+```{r test-TDP}
+trans %>% 
+  # filter(rna == 1) %>% 
+  filter(from > -0.2 & from < 1.2, 
+         to > -0.2 & to < 1.2) %>% 
+  ggplot(aes(from, to)) + 
+  stat_density_2d(
+    aes(fill = ..ndensity..,
+        alpha = ..ndensity..),
+    geom = "raster",
+    n = 100,
+    contour = FALSE, 
+    h = c(0.2,0.2)
+  ) +
+  scale_fill_viridis_c() +
+  scale_alpha_continuous(range = c(0.01, 1)) +
+  
+  coord_cartesian(xlim = c(0,1), ylim = c(0,1)) + 
+  
+  guides(alpha = "none", fill = "none") +
+  
+  facet_wrap(~rna) +
+  
+  
+  theme_light() +
+  theme(
+    aspect.ratio = 1, 
+    # panel.background = element_rect(fill = "gray90"), 
+    panel.grid = element_line(colour = "gray70")
+    )
+```
+
+
+# Fitting the decays
+
+```{r}
+cut_df <- trans %>% 
+  # filter(rna == 1) %>% 
+  mutate(
+    from = case_when(
+      from > 1 ~ 1, 
+      from < 0 ~ 0, 
+      TRUE ~ from
+    ), 
+    to = case_when(
+      to > 1 ~ 1, 
+      to < 0 ~ 0, 
+      TRUE ~ to
+    ),
+    from_cut = cut(from, breaks = c(0.05, 0.49, 0.7, 1), labels = FALSE),
+    to_cut   = cut(to, breaks = c(0.05, 0.49, 0.7, 1), labels = FALSE)
+  )
+
+cut_df %>% 
+  filter(rna == 1) %>% 
+  filter(!is.na(from_cut) & !is.na(to_cut)) %>% 
+  ggplot(aes(time)) + 
+  geom_histogram(aes(y = ..ncount..), bins = 50) + 
+  facet_grid(
+    rows = vars(from_cut), 
+    cols = vars(to_cut)
+  ) +
+  xlim(c(0, 50))
+```
+
+```{r}
+cut_df %>% 
+  # filter(rna == 1) %>% 
+  filter(from_cut == 2) %>%
+  group_by(rna, id) %>% 
+  summarise(time = sum(time)) %>% head
+  ggplot(aes(y = time)) + 
+  # geom_point() +
+  # geom_density(aes(x =..ndensity..), n = 100, bw = 2) + 
+  # geom_density(aes(x = -..ndensity..), n = 100, bw = 2) + 
+  ggbeeswarm::geom_beeswarm(aes(x = 0), cex = 1.5) +
+  facet_wrap(~rna) + 
+  coord_cartesian(ylim  = c(0,50), xlim = c(-0.2, 0.2))
 ```
 
