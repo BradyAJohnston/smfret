@@ -221,6 +221,7 @@ live_rna01 %>%
 Need to apply this approach to all of the RNA to replicated all of their plots. To do that we'll need to read in each of the sets of plots.
 ```{r read-all}
 paths <- c(
+  "data/smfret-data/RNA0/rename_path",
   "data/smfret-data/RNA1_target",
   "data/smfret-data/RNA2",
   "data/smfret-data/RNA3",
@@ -235,15 +236,15 @@ paths <- c(
   "data/smfret-data/RNA12",
   "data/smfret-data/RNA13"
 )
-list.files(paths[8], ".dat")
+
 
 some_list <- pbapply::pblapply(seq_along(paths), \(x) {
   df <- read_fun(list.files(paths[x], ".dat", full.names = TRUE))
-  df$rna <- x
+  df$rna <- x-1
   df
 })
 
-df <- do.call(rbind, some_list[c(1:7, 9:13)])
+df <- do.call(rbind, some_list)
 
 df %>% 
   time_density_plot() + 
@@ -345,16 +346,76 @@ cut_df %>%
 
 ```{r}
 cut_df %>% 
-  # filter(rna == 1) %>% 
+  # filter(rna == 5) %>%
   filter(from_cut == 2) %>%
   group_by(rna, id) %>% 
-  summarise(time = sum(time)) %>% head
-  ggplot(aes(y = time)) + 
-  # geom_point() +
-  # geom_density(aes(x =..ndensity..), n = 100, bw = 2) + 
-  # geom_density(aes(x = -..ndensity..), n = 100, bw = 2) + 
-  ggbeeswarm::geom_beeswarm(aes(x = 0), cex = 1.5) +
-  facet_wrap(~rna) + 
-  coord_cartesian(ylim  = c(0,50), xlim = c(-0.2, 0.2))
+  # summarise(time = sum(time)) %>% 
+  ggplot(aes(x = time)) + 
+  geom_histogram(aes(y = ..ncount..)) +
+  geom_density(aes(y = ..ndensity..)) +
+  # geom_violin() +
+  # ggbeeswarm::geom_beeswarm(cex = 0.5, size = 0.1) +
+  coord_cartesian(xlim = c(0,40)) +
+  facet_wrap(~rna) +
+  NULL
+  # coord_cartesian(ylim  = c(0,50), xlim = c(-0.2, 0.2))
 ```
+
+```{r}
+counted_df <- cut_df %>% 
+  filter(from_cut == 2) %>% 
+  ungroup() %>% 
+  mutate(
+    time_bin = cut(time, breaks = seq(0, max(time),  by = 1), labels = FALSE)
+    ) %>% 
+  group_by(rna, time_bin) %>% 
+  summarise(n = n()) %>%
+  mutate(nn = n / max(n))
+
+
+fitted <- counted_df %>% 
+  biochemr::b_dose_resp(time_bin, nn, rna,
+                        .model = drc::EXD.2(names = c("max", "rate")))
+
+decay_plot <- fitted %>% 
+  biochemr::b_plot() + 
+  facet_wrap(~rna, ncol = 1, strip.position = "left") + 
+  theme_void() + 
+  geom_col(
+    data = fitted %>% unnest(raw), 
+    aes(x = time_bin, 
+        y = nn), 
+    alpha = 0.2
+  )
+```
+
+
+```{r}
+#| fig.height: 10
+#| fig.retina: 2
+rate_plot <- fitted %>% 
+  biochemr::b_coefs() %>% 
+  filter(term == "rate") %>% 
+  ggplot(aes(y = factor(rna, levels = c(13:0)), x = estimate)) + 
+  geom_errorbarh(
+    aes(xmin = estimate - std.error, xmax = estimate + std.error), 
+    height = 0.2
+    ) + 
+  geom_point(size = 3, aes(colour = factor(rna))) + 
+  guides(colour = "none") + 
+  # scale_y_reverse() +
+  # scale_x_log10() + 
+  theme_classic() + 
+  labs(x = "State Half Life (s)", 
+       y = "RNA Sample") + 
+  coord_cartesian(xlim = c(0,10))
+
+patchwork::wrap_plots(rate_plot, decay_plot, ncol = 2)
+```
+
+
+```{r}
+
+```
+
 
