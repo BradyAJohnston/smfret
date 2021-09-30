@@ -1,0 +1,176 @@
+---
+title: "Turning the data into formatted data frames."
+author: "Brady Johnston"
+date: "2021-09-30"
+output: 
+    workflowr::wflow_html:
+      code_folding: show
+editor_options:
+  chunk_output_type: console
+---
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+```
+
+
+# smFRET Traces
+
+The traces for the indiviual traces are in the following:
+```{r}
+
+
+paths <- c(
+  "0" = "data/smfret-data/RNA0/rename_path",
+  "1" = "data/smfret-data/RNA1_target",
+  "2" = "data/smfret-data/RNA2",
+  "3" = "data/smfret-data/RNA3",
+  "4" = "data/smfret-data/RNA4",
+  "5" = "data/smfret-data/RNA5",
+  "6" = "data/smfret-data/RNA6",
+  "7" = "data/smfret-data/RNA7",
+  "8" = "data/smfret-data/RNA8",
+  "9" = "data/smfret-data/RNA9",
+  "10" = "data/smfret-data/RNA10",
+  "11" = "data/smfret-data/RNA11",
+  "12" = "data/smfret-data/RNA12",
+  "13" = "data/smfret-data/RNA13"
+)
+
+head(paths)
+```
+```{r}
+read_fun <- function(file) {
+  some_list <- pbapply::pblapply(seq_along(file), function(x) {
+    df <- readr::read_table(file[x], 
+                            col_types = readr::cols(), 
+                            col_names = c("frame", "don", "acc", "fret", "state"))
+    df$mol <- x
+    df
+  })
+  
+  do.call(rbind, some_list)
+}
+# read the first set of frames as test
+read_fun(list.files(paths[1], ".dat", full.names = TRUE))
+```
+
+## Read all of the Files in
+```{r}
+pbapply::pblapply(seq_along(paths), function(x) {
+  df <- read_fun(list.files(paths[x], ".dat", full.names = TRUE))
+  df$rna <- names(paths)[x]
+  df
+}) %>% 
+  do.call(rbind, .) -> df
+
+df
+
+saveRDS(df, file = "data/all-traces.rds")
+```
+
+## Calculate all of the state-changes
+```{r}
+traces <- readr::read_rds("data/all-traces.rds")
+
+transitions <- traces %>% 
+  group_by(rna, mol) %>% 
+  mutate(
+    from = state,
+    to = lead(from), # get what the current state will transition to (next row)
+    new_state = lag(from) != from, 
+    new_state = if_else(is.na(new_state), FALSE, new_state),
+    state_no = 1 + cumsum(new_state)
+  ) %>% 
+  group_by(rna, mol, state_no) %>% 
+  summarise(
+    frames = n(),         # number of frames in this state
+    time = n() / 5,       # numer of frames in seconds (frames = 0.2 s)
+    from = last(from),    # get the last entry in from
+    to = last(to)         # get the last entry in to
+  )
+
+transitions
+```
+## Cutting the states
+```{r}
+
+state_cutoffs <- c(0, 0.49, 0.7, 1)
+
+cut_df <- transitions %>% 
+  filter(time < 21) %>% 
+  mutate(
+    from = case_when(
+      from > 1 ~ 1, 
+      from < 0 ~ 0, 
+      TRUE     ~ from
+    ), 
+    to = case_when(
+      to > 1 ~ 1, 
+      to < 0 ~ 0, 
+      TRUE   ~ to
+    ),
+    from_cut = cut(from, breaks = state_cutoffs, labels = FALSE),
+    to_cut   = cut(to, breaks = state_cutoffs, labels = FALSE)
+  )
+
+state_3 <- cut_df %>% 
+  filter(from_cut == 3) %>% 
+  ungroup() %>% 
+  mutate(
+    time_bin = cut(time, breaks = seq(0, max(ceiling(time)), by = 1), labels = FALSE)
+  ) %>% 
+  group_by(rna, time_bin) %>% 
+  summarise(n = n()) %>% 
+  mutate(nn = n / max(n))
+
+drc::drm(
+  nn ~ time_bin, 
+  data = filter(state_3, rna == 1), 
+  fct = drc::EXD.2(names = c("max", "rate"))
+)
+
+fitted_3 <- state_3 %>% 
+  biochemr::b_dose_resp(time_bin, nn, rna, 
+                        .model = drc::EXD.2(names = c("max", "rate"))) %>% 
+  mutate(rna = as.numeric(rna))
+
+
+decay_plot <- fitted_3 %>% 
+  biochemr::b_plot() + 
+  facet_wrap(~rna, ncol = 1, strip.position = "left") + 
+  # theme_void() + 
+  geom_col(
+    data = fitted_3 %>% unnest(data), 
+    aes(dose, resp), 
+    alpha = 0.3
+  ) + 
+  theme_classic() + 
+  theme(
+    axis.text.y = element_blank(), 
+    axis.ticks.y = element_blank(), 
+    strip.text = element_blank(), 
+    strip.background = element_blank()
+  )
+# decay_plot
+
+rate_plot <- fitted_3 %>% 
+  biochemr::b_coefs() %>% 
+  filter(term == "rate") %>% 
+  ggplot(aes(estimate, 
+             reorder(rna, -as.numeric(rna)), 
+             colour = factor(rna))) + 
+  geom_errorbarh(aes(
+    xmin = estimate - std.error, 
+    xmax = estimate + std.error
+  ), 
+   colour = "black", 
+  height = 0.2) + 
+  geom_point(size = 3) + 
+  theme_light() + 
+  # coord_cartesian(xlim = c(0, 7)) + 
+  guides(colour = "none")
+
+patchwork::wrap_plots(rate_plot, decay_plot, ncol = 2)
+```
+
