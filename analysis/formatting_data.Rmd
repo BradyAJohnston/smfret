@@ -18,8 +18,6 @@ library(tidyverse)
 
 The traces for the indiviual traces are in the following:
 ```{r}
-
-
 paths <- c(
   "0" = "data/smfret-data/RNA0/rename_path",
   "1" = "data/smfret-data/RNA1_target",
@@ -53,6 +51,7 @@ read_fun <- function(file) {
 }
 # read the first set of frames as test
 read_fun(list.files(paths[1], ".dat", full.names = TRUE))
+
 ```
 
 ## Read all of the Files in
@@ -91,10 +90,11 @@ transitions <- traces %>%
   )
 
 transitions
+
+saveRDS(transitions, "data/transitions.rds")
 ```
 ## Cutting the states
 ```{r}
-
 state_cutoffs <- c(0, 0.49, 0.7, 1)
 
 cut_df <- transitions %>% 
@@ -113,7 +113,11 @@ cut_df <- transitions %>%
     from_cut = cut(from, breaks = state_cutoffs, labels = FALSE),
     to_cut   = cut(to, breaks = state_cutoffs, labels = FALSE)
   )
+```
 
+
+## Bin the transitions from state 3
+```{r}
 state_3 <- cut_df %>% 
   filter(from_cut == 3) %>% 
   ungroup() %>% 
@@ -129,22 +133,28 @@ drc::drm(
   data = filter(state_3, rna == 1), 
   fct = drc::EXD.2(names = c("max", "rate"))
 )
+```
 
+## Fit exponential decay models to the binned times
+```{r}
 fitted_3 <- state_3 %>% 
   biochemr::b_dose_resp(time_bin, nn, rna, 
                         .model = drc::EXD.2(names = c("max", "rate"))) %>% 
   mutate(rna = as.numeric(rna))
+```
 
-
+## Plot the decays and the calculated half lives.
+```{r}
 decay_plot <- fitted_3 %>% 
   biochemr::b_plot() + 
-  facet_wrap(~rna, ncol = 1, strip.position = "left") + 
+  facet_wrap(~rna, ncol = 1, strip.position = "left") +
   # theme_void() + 
   geom_col(
     data = fitted_3 %>% unnest(data), 
-    aes(dose, resp), 
+    aes(dose, resp, fill = factor(rna)), 
     alpha = 0.3
   ) + 
+  guides(fill = "none") +
   theme_classic() + 
   theme(
     axis.text.y = element_blank(), 
@@ -168,9 +178,44 @@ rate_plot <- fitted_3 %>%
   height = 0.2) + 
   geom_point(size = 3) + 
   theme_light() + 
-  # coord_cartesian(xlim = c(0, 7)) + 
-  guides(colour = "none")
+  coord_cartesian(xlim = c(0, 7)) +
+  guides(colour = "none") + 
+  # facet_wrap(~factor(rna), ncol = 1, scales = "free_y") + 
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank()) + 
+   labs(x = "Half Life (s)", 
+        y = "RNA Sample")
 
-patchwork::wrap_plots(rate_plot, decay_plot, ncol = 2)
+patchwork::wrap_plots(rate_plot, decay_plot, ncol = 2, widths = c(2,1))
+```
+
+
+```{r}
+
+cut1 <- 0.49
+cut2 <- 0.7
+
+cut_df %>% 
+  filter(rna == 1) %>% 
+  ggplot(aes(from, to)) + 
+  geom_density2d_filled(
+    contour_var = "ndensity",
+    bins = 20,
+    n = 80
+    ) + 
+  geom_segment(aes(x = x1, xend = x2, y = y1, yend = y2), 
+               colour = "white", 
+               linetype = "dashed",
+               data = data.frame(
+                 x1 = c(cut1, cut2, 0, 0), 
+                 x2 = c(cut1, cut2, cut1, cut2),
+                 y1 = c(0, 0, cut1, cut2), 
+                 y2 = c(cut1, cut2, cut1, cut2)
+               )) +
+  scale_x_continuous(expand = expansion(c(0,0))) + 
+  scale_y_continuous(expand = expansion(c(0,0))) + 
+  theme_light() + 
+  guides(fill = "none") +
+  labs(x = "Before Transition", y = "After Transition")
 ```
 

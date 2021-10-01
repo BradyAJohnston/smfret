@@ -389,7 +389,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-09-30
+<strong>Last updated:</strong> 2021-10-01
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -413,7 +413,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -480,16 +480,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettree7ca2613b7ee7a3903fa6efb69fe336ca9846f462targetblank7ca2613a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/7ca2613b7ee7a3903fa6efb69fe336ca9846f462" target="_blank">7ca2613</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreedc10706c967b7d34731a6ede016d151fef0528catargetblankdc10706a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/dc10706c967b7d34731a6ede016d151fef0528ca" target="_blank">dc10706</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettree7ca2613b7ee7a3903fa6efb69fe336ca9846f462targetblank7ca2613a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreedc10706c967b7d34731a6ede016d151fef0528catargetblankdc10706a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/7ca2613b7ee7a3903fa6efb69fe336ca9846f462" target="_blank">7ca2613</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/dc10706c967b7d34731a6ede016d151fef0528ca" target="_blank">dc10706</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -498,13 +498,10 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-
-Untracked files:
-    Untracked:  analysis/formatting_data.Rmd
-    Untracked:  data/all-traces.rds
+    Ignored:    data/smfret-data
 
 Unstaged changes:
-    Modified:   analysis/bishnu_new_traces.Rmd
+    Modified:   analysis/formatting_data.Rmd
 
 </code></pre>
 <p>
@@ -517,9 +514,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/formatting_data.Rmd</code>) and HTML (<code>docs/formatting_data.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/6346059cd0f000cb1829bdab590dbd78ef796e3c/analysis/formatting_data.Rmd" target="_blank">6346059</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-09-30
+</td>
+<td>
+created the formatting_data.Rmd
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/BradyAJohnston/smfret/6346059cd0f000cb1829bdab590dbd78ef796e3c/docs/formatting_data.html" target="_blank">6346059</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-09-30
+</td>
+<td>
+created the formatting_data.Rmd
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -647,6 +704,7 @@ transitions &lt;- traces %&gt;%
 <pre class="r"><code>state_cutoffs &lt;- c(0, 0.49, 0.7, 1)
 
 cut_df &lt;- transitions %&gt;% 
+  filter(time &lt; 21) %&gt;% 
   mutate(
     from = case_when(
       from &gt; 1 ~ 1, 
@@ -660,46 +718,85 @@ cut_df &lt;- transitions %&gt;%
     ),
     from_cut = cut(from, breaks = state_cutoffs, labels = FALSE),
     to_cut   = cut(to, breaks = state_cutoffs, labels = FALSE)
-  )
-
-cut_df %&gt;% 
+  )</code></pre>
+</div>
+<div id="bin-the-transitions-from-state-3" class="section level2">
+<h2>Bin the transitions from state 3</h2>
+<pre class="r"><code>state_3 &lt;- cut_df %&gt;% 
   filter(from_cut == 3) %&gt;% 
   ungroup() %&gt;% 
   mutate(
-    time_bin = cut(time, breaks = seq(0, max(time), by = 1), labels = FALSE)
+    time_bin = cut(time, breaks = seq(0, max(ceiling(time)), by = 1), labels = FALSE)
   ) %&gt;% 
   group_by(rna, time_bin) %&gt;% 
   summarise(n = n()) %&gt;% 
-  mutate(nn = n / max(n)) %&gt;% 
-  # filter(rna == 1)
+  mutate(nn = n / max(n))</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;rna&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>drc::drm(
+  nn ~ time_bin, 
+  data = filter(state_3, rna == 1), 
+  fct = drc::EXD.2(names = c(&quot;max&quot;, &quot;rate&quot;))
+)</code></pre>
+<pre><code>
+A &#39;drc&#39; model.
+
+Call:
+drc::drm(formula = nn ~ time_bin, data = filter(state_3, rna ==     1), fct = drc::EXD.2(names = c(&quot;max&quot;, &quot;rate&quot;)))
+
+Coefficients:
+ max:(Intercept)  rate:(Intercept)  
+           1.708             1.965  </code></pre>
+</div>
+<div id="fit-exponential-decay-models-to-the-binned-times" class="section level2">
+<h2>Fit exponential decay models to the binned times</h2>
+<pre class="r"><code>fitted_3 &lt;- state_3 %&gt;% 
   biochemr::b_dose_resp(time_bin, nn, rna, 
                         .model = drc::EXD.2(names = c(&quot;max&quot;, &quot;rate&quot;))) %&gt;% 
-  filter(rna == 1)</code></pre>
-<pre><code>`summarise()` has grouped output by &#39;rna&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code># A tibble: 1 × 6
-# Groups:   rna [1]
-  rna   raw               data       drmod  line      coefs           
-  &lt;chr&gt; &lt;list&gt;            &lt;list&gt;     &lt;list&gt; &lt;list&gt;    &lt;list&gt;          
-1 1     &lt;tibble [26 × 3]&gt; &lt;list [1]&gt; &lt;drc&gt;  &lt;lgl [1]&gt; &lt;tibble [2 × 6]&gt;</code></pre>
-<pre class="r"><code>  # biochemr::b_plot()
+  mutate(rna = as.numeric(rna))</code></pre>
+</div>
+<div id="plot-the-decays-and-the-calculated-half-lives." class="section level2">
+<h2>Plot the decays and the calculated half lives.</h2>
+<pre class="r"><code>decay_plot &lt;- fitted_3 %&gt;% 
+  biochemr::b_plot() + 
+  facet_wrap(~rna, ncol = 1, strip.position = &quot;left&quot;) +
+  # theme_void() + 
+  geom_col(
+    data = fitted_3 %&gt;% unnest(data), 
+    aes(dose, resp, fill = factor(rna)), 
+    alpha = 0.3
+  ) + 
+  guides(fill = &quot;none&quot;) +
+  theme_classic() + 
+  theme(
+    axis.text.y = element_blank(), 
+    axis.ticks.y = element_blank(), 
+    strip.text = element_blank(), 
+    strip.background = element_blank()
+  )
+# decay_plot
 
-cut_df %&gt;% 
-  filter(from_cut == 3, rna == 1)</code></pre>
-<pre><code># A tibble: 613 × 9
-# Groups:   rna, mol [77]
-   rna     mol state_no frames  time  from     to from_cut to_cut
-   &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;int&gt;  &lt;int&gt;
- 1 1         1        2      1   0.2 0.722  0.406        3      1
- 2 1         1        4     36   7.2 0.722 NA            3     NA
- 3 1         2        2      1   0.2 1      0.441        3      1
- 4 1         2        4      1   0.2 1      0.441        3      1
- 5 1         2        6     44   8.8 0.791  1            3      3
- 6 1         2        7      7   1.4 1      0.791        3      3
- 7 1         2        8     49   9.8 0.791  1            3      3
- 8 1         2        9      4   0.8 1      0.791        3      3
- 9 1         2       10      7   1.4 0.791  0.441        3      1
-10 1         2       12     13   2.6 1      1            3      3
-# … with 603 more rows</code></pre>
+rate_plot &lt;- fitted_3 %&gt;% 
+  biochemr::b_coefs() %&gt;% 
+  filter(term == &quot;rate&quot;) %&gt;% 
+  ggplot(aes(estimate, 
+             reorder(rna, -as.numeric(rna)), 
+             colour = factor(rna))) + 
+  geom_errorbarh(aes(
+    xmin = estimate - std.error, 
+    xmax = estimate + std.error
+  ), 
+   colour = &quot;black&quot;, 
+  height = 0.2) + 
+  geom_point(size = 3) + 
+  theme_light() + 
+  coord_cartesian(xlim = c(0, 7)) +
+  guides(colour = &quot;none&quot;) + 
+  # facet_wrap(~factor(rna), ncol = 1, scales = &quot;free_y&quot;) + 
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank())
+
+patchwork::wrap_plots(rate_plot, decay_plot, ncol = 2)</code></pre>
+<p><img src="figure/formatting_data.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -735,29 +832,31 @@ loaded via a namespace (and not attached):
 [13] withr_2.4.2         tidyselect_1.1.1    bit_4.0.4          
 [16] curl_4.3.2          compiler_4.1.0      git2r_0.28.0       
 [19] cli_3.0.1           rvest_1.0.1         xml2_1.3.2         
-[22] sandwich_3.0-1      sass_0.4.0          scales_1.1.1       
-[25] biochemr_0.1.0.9000 mvtnorm_1.1-2       pbapply_1.5-0      
-[28] digest_0.6.28       foreign_0.8-81      rmarkdown_2.11     
-[31] rio_0.5.27          pkgconfig_2.0.3     htmltools_0.5.2    
-[34] plotrix_3.8-2       dbplyr_2.1.1        fastmap_1.1.0      
-[37] rlang_0.4.11        readxl_1.3.1        rstudioapi_0.13    
-[40] jquerylib_0.1.4     generics_0.1.0      zoo_1.8-9          
-[43] jsonlite_1.7.2      gtools_3.9.2        vroom_1.5.5        
-[46] zip_2.2.0           car_3.0-11          magrittr_2.0.1     
-[49] Matrix_1.3-4        Rcpp_1.0.7          munsell_0.5.0      
-[52] fansi_0.5.0         abind_1.4-5         lifecycle_1.0.1    
-[55] stringi_1.7.4       multcomp_1.4-17     yaml_2.2.1         
-[58] carData_3.0-4       MASS_7.3-54         grid_4.1.0         
-[61] parallel_4.1.0      promises_1.2.0.1    crayon_1.4.1       
-[64] lattice_0.20-44     splines_4.1.0       haven_2.4.3        
-[67] hms_1.1.1           knitr_1.36          pillar_1.6.3       
-[70] codetools_0.2-18    reprex_2.0.1        glue_1.4.2         
-[73] drc_3.0-1           evaluate_0.14       data.table_1.14.0  
-[76] modelr_0.1.8        vctrs_0.3.8         tzdb_0.1.2         
-[79] httpuv_1.6.3        cellranger_1.1.0    gtable_0.3.0       
-[82] assertthat_0.2.1    xfun_0.26           openxlsx_4.2.4     
-[85] broom_0.7.9         later_1.3.0         survival_3.2-12    
-[88] TH.data_1.0-10      ellipsis_0.3.2     </code></pre>
+[22] sandwich_3.0-1      labeling_0.4.2      sass_0.4.0         
+[25] scales_1.1.1        biochemr_0.1.0.9000 mvtnorm_1.1-2      
+[28] pbapply_1.5-0       digest_0.6.28       foreign_0.8-81     
+[31] rmarkdown_2.11      rio_0.5.27          pkgconfig_2.0.3    
+[34] htmltools_0.5.2     plotrix_3.8-2       highr_0.9          
+[37] dbplyr_2.1.1        fastmap_1.1.0       rlang_0.4.11       
+[40] readxl_1.3.1        rstudioapi_0.13     farver_2.1.0       
+[43] jquerylib_0.1.4     generics_0.1.0      zoo_1.8-9          
+[46] jsonlite_1.7.2      gtools_3.9.2        vroom_1.5.5        
+[49] zip_2.2.0           car_3.0-11          magrittr_2.0.1     
+[52] patchwork_1.1.1     Matrix_1.3-4        Rcpp_1.0.7         
+[55] munsell_0.5.0       fansi_0.5.0         abind_1.4-5        
+[58] lifecycle_1.0.1     stringi_1.7.4       multcomp_1.4-17    
+[61] whisker_0.4         yaml_2.2.1          carData_3.0-4      
+[64] MASS_7.3-54         grid_4.1.0          parallel_4.1.0     
+[67] promises_1.2.0.1    crayon_1.4.1        lattice_0.20-44    
+[70] splines_4.1.0       haven_2.4.3         hms_1.1.1          
+[73] knitr_1.36          pillar_1.6.3        codetools_0.2-18   
+[76] reprex_2.0.1        glue_1.4.2          drc_3.0-1          
+[79] evaluate_0.14       data.table_1.14.0   modelr_0.1.8       
+[82] vctrs_0.3.8         tzdb_0.1.2          httpuv_1.6.3       
+[85] cellranger_1.1.0    gtable_0.3.0        assertthat_0.2.1   
+[88] xfun_0.26           openxlsx_4.2.4      broom_0.7.9        
+[91] later_1.3.0         survival_3.2-12     TH.data_1.0-10     
+[94] ellipsis_0.3.2     </code></pre>
 </div>
 </div>
 </div>
