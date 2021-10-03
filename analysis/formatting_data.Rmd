@@ -113,6 +113,9 @@ cut_df <- transitions %>%
     from_cut = cut(from, breaks = state_cutoffs, labels = FALSE),
     to_cut   = cut(to, breaks = state_cutoffs, labels = FALSE)
   )
+
+cut_df %>%
+  filter(is.na(to))
 ```
 
 
@@ -189,7 +192,11 @@ rate_plot <- fitted_3 %>%
 patchwork::wrap_plots(rate_plot, decay_plot, ncol = 2, widths = c(2,1))
 ```
 
+## Need to fix this error.
 
+Currently the binning is discarding those states which didn't transition. For the molecules that make it to the higher state and the do no transition into lower states, despite staying there for a long period of time, this would be severely biasing the models generating to the shorter time periods that don't include these long-lived molecules in their states.
+
+Need to re-bin them, and include those that don't transition but are just in the last state for a long time.
 ```{r}
 
 cut1 <- 0.49
@@ -207,10 +214,10 @@ cut_df %>%
                colour = "white", 
                linetype = "dashed",
                data = data.frame(
-                 x1 = c(cut1, cut2, 0, 0), 
-                 x2 = c(cut1, cut2, cut1, cut2),
-                 y1 = c(0, 0, cut1, cut2), 
-                 y2 = c(cut1, cut2, cut1, cut2)
+                 x1 = c(cut1, cut2, 0, 0, 0), 
+                 x2 = c(cut1, cut2, cut1, cut2, 1),
+                 y1 = c(0, 0, cut1, cut2, 0), 
+                 y2 = c(cut1, cut2, cut1, cut2, 1)
                )) +
   scale_x_continuous(expand = expansion(c(0,0))) + 
   scale_y_continuous(expand = expansion(c(0,0))) + 

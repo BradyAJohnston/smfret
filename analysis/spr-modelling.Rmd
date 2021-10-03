@@ -1,0 +1,187 @@
+---
+title: "SPR Modelling"
+author: "Brady Johnston"
+date: "2021-10-03"
+output: 
+    workflowr::wflow_html:
+      code_folding: show
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+Modelling the decay of protein binding in SPR.
+
+```{r}
+df <- readr::read_rds("~/Dropbox/BondLab/Data/SPR/spr.rds")
+df
+```
+
+There are a lot of time points per second, so fitting of models will be slow. We can sub-sample some of the points, to make modelling and plotting quicker and easier.
+
+```{r}
+df <- df %>% 
+  filter(time %% 1 == 0) %>% 
+  rename(rna = RNA, resp = Response)
+```
+
+The response chromatograms for the SPR experiments are shown, with application of the RNA at `0` s and the washout commencing at `300` s.
+
+```{r}
+#| fig.cap: "SPR response chromatograms of all RNA samples tested."
+  
+df %>% 
+  # filter(str_detect(rna, "01|02|03|04")) %>% 
+  ggplot(aes(time, resp, colour = rna)) + 
+  geom_line() + 
+  theme_classic() + 
+  labs(x = "Time (s)", 
+       y = "Response Units (RU)", 
+       colour = "Sample RNA") + 
+  theme(legend.position = "bottom")
+```
+
+## Response Profiles
+
+There are distinct shapes to the response profiles in the SPR traces. The target RNA01 shows a *bi-phasic* dissociation after the washout step begins. This indicates there it is not a single-step dissociation event occurring.
+
+Dissociation can be modelled with a single-exponential decay model, with bi-phasic disssociation being able to be modelled with a double exponential decay model.
+
+First we can look at the decay of the target RNA01.
+
+```{r}
+df %>% 
+  filter(time > 300, 
+         rna == "RNA01") %>% 
+  ggplot(aes(time, resp)) + 
+  geom_line() + 
+  theme_light()
+```
+
+If we try to fit a single-exponential decay model to this data, we see the following fit.
+
+```{r}
+decay_data <- df %>% 
+  filter(time > 300, 
+         rna == "RNA01")
+
+single_model <- nls(resp ~ SSasymp(time, Asym, R0, lrc), data = decay_data)
+
+decay_plot <- decay_data %>% 
+  ggplot(aes(time, resp)) + 
+  geom_point() + 
+  theme_light() + 
+  labs(x = "Time (s)", 
+       y = "Response Units (RU)")
+
+plot1 <- decay_plot +
+  geom_line(
+    data = data.frame(
+      time = decay_data$time, 
+      resp = single_model$m$fitted()
+    ), 
+    colour = "tomato", 
+    size = 2
+  )
+
+plot1
+  
+```
+
+The curve does not fit well do the data. Not let us fit a double-exponential decay model.
+
+```{r}
+double_model <- nls(
+  resp ~ SSbiexp(time, A1, t1, A2, t2), 
+  data = decay_data
+)
+
+plot2 <- decay_plot + 
+  geom_line(
+    data = data.frame(
+      time = decay_data$time, 
+      resp = double_model$m$fitted()
+    ), 
+    colour = "tomato", 
+    size = 2
+  )
+
+
+patchwork::wrap_plots(
+  plot1 + labs(title = "Single Exponential Decay"), 
+  plot2 + labs(title = "Double Exponential Decay"), 
+  ncol = 2
+)
+```
+
+This is a much better fit in comparison to the previous, which is certainly supportive of the model that this is not a single dissociation event that is occurring, instead that there are multiple steps that the protein must go through in order to unbind the RNA target, each with differing rates.
+
+The fit is still not ideal, suggesting that potentially the interactions that are going on are still more complex than we can model, but trying to model any more steps to the process will be very unreliable and likely lead to incorrect over-fitting.
+
+```{r}
+double_model_plot <- function(decay_data, title) {
+  single_model <-
+    nls(resp ~ SSasymp(time, Asym, R0, lrc), data = decay_data)
+  
+  decay_plot <- decay_data %>% 
+    ggplot(aes(time, resp)) + 
+    geom_point() + 
+    theme_light() + 
+    labs(x = "Time (s)", 
+         y = "Response Units (RU)")
+  
+  plot1 <- decay_plot +
+    geom_line(
+      data = data.frame(
+        time = decay_data$time, 
+        resp = single_model$m$fitted(), 
+        model = factor("Single Exponential", 
+                       levels = c("Single Exponential", 
+                                  "Double Exponential"))
+      ), 
+      colour = "tomato", 
+      size = 2
+    )
+  
+  double_model <- nls(
+    resp ~ SSbiexp(time, A1, t1, A2, t2), 
+    data = decay_data
+  )
+  
+  plot2 <- plot1 + 
+    geom_line(
+      data = data.frame(
+        time = decay_data$time, 
+        resp = double_model$m$fitted(), 
+        model = factor("Double Exponential", 
+                       levels = c("Single Exponential", 
+                                  "Double Exponential"))
+      ), 
+      colour = "tomato", 
+      size = 2
+    )
+  
+  print(plot2 + 
+          facet_wrap(~model, nrow = 1) + 
+          labs(title = title))
+}
+
+double_model_plot(decay_data, "Testing RNA1")
+```
+
+Apply it to all of the different RNA.
+
+```{r all-rna, }
+#| fig.height = 3
+df %>% 
+  filter(time > 300) %>% 
+  group_by(rna) %>% 
+  nest() %>% 
+  mutate(
+    plot = map2(data, rna, possibly(double_model_plot, NA))
+  )
+```
