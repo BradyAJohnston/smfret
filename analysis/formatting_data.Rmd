@@ -67,6 +67,11 @@ pbapply::pblapply(seq_along(paths), function(x) {
 df
 
 saveRDS(df, file = "data/all-traces.rds")
+
+live_flow <- read_fun(list.files(here::here("data/smfret-data/RNA1_target/liveflow_RNA1/"), full.names = TRUE))
+
+saveRDS(live_flow, file = "data/live-flow.rds")
+
 ```
 
 ## Calculate all of the state-changes

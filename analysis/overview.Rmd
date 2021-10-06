@@ -1,0 +1,196 @@
+---
+title: "Biophysical Studies of dsnPPR10"
+author: "Brady Johnston"
+date: "2021-10-06"
+output:
+  workflowr::wflow_html:
+  code_folding: hide
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+
+traces <- readRDS("data/all-traces.rds")
+transitions <- readRDS("data/transitions.rds")
+spr <- readRDS("~/Dropbox/BondLab/Data/SPR/spr.rds")
+live_flow <- readRDS("data/live-flow.rds")
+```
+
+#### Useful Functions
+
+```{r functions}
+time_density_plot <- function(data) {
+  data %>% 
+    filter(fret > 0, fret < 1) %>% 
+    mutate(frame = frame / 5) %>% 
+    ggplot(aes(frame, fret)) + 
+    geom_point(alpha = 0.1, colour = "gray30") +
+    stat_density_2d(aes(fill = ..ndensity.., alpha = ..ndensity..),
+                    geom = "raster",
+                    n = 200,
+                    contour = FALSE) +
+    geom_density_2d(bins = 10, colour = "white", contour_var = "ndensity") +
+    scale_fill_viridis_c(option = "D",
+                         direction = 1,
+                         limits = c(0.002, NA),
+                         # trans = "log10",
+                         na.value = NA) +
+    scale_alpha_continuous(range = c(0.01, 0.8)) +
+    coord_cartesian(ylim = c(0,1), xlim = c(0,100)) + 
+    guides(alpha = "none", 
+           fill = "none") +
+    # theme_light() +
+    theme_linedraw() +
+    labs(x = "Time (s)", y = "FRET") +
+    scale_x_continuous(expand = c(0,0)) + 
+    scale_y_continuous(expand = c(0,0))
+}
+tdp_plot <- function(data) {
+  data %>% 
+    filter(from > -0.2 & from < 1.2, 
+         to > -0.2 & to < 1.2) %>% 
+  ggplot(aes(from, to)) + 
+  stat_density_2d(
+    aes(fill = ..ndensity..,
+        alpha = log2(..ndensity.. + 1)),
+    geom = "raster",
+    n = 400,
+    contour = FALSE,
+    h = c(0.2,0.2)
+  ) +
+  geom_density2d(
+    contour_var = "ndensity",
+    n = 100,
+    bins = 15,
+    colour = "black", alpha = 0.3
+  ) +
+  scale_fill_viridis_c(option = "B", direction = 1) +
+  scale_alpha_continuous(range = c(0, 1)) +
+  
+  coord_cartesian(xlim = c(0,1), ylim = c(0,1)) + 
+  
+  guides(alpha = "none", fill = "none") +
+  
+  scale_x_continuous(expand = expansion(0), breaks = seq(0,1,0.2)) +
+  scale_y_continuous(expand = expansion(0), breaks = seq(0,1,0.2)) +
+  
+  labs(x = "Before Transition", 
+       y = "After Transition", 
+       y = "Transition Density Plot") +
+  
+  theme_light() +
+  theme(
+    aspect.ratio = 1, 
+    # panel.background = element_rect(fill = "gray90"), 
+    panel.grid = element_line(colour = "gray90")
+    )
+}
+
+get_gaussians <- function(x,
+                          mu = c(0.3, 0.6, 0.9),
+                          sigma = 0.05) {
+  mixtools::normalmixEM(
+    x,
+    mu = mu,
+    sigma = sigma,
+    maxit = 1e4,
+    maxrestarts = 40
+  ) %>%
+    .[c("mu", "sigma", "lambda")] %>%
+    as.data.frame()
+}
+
+add_gaussians <- function(plot, gaussians) {
+  purrr::reduce(seq(nrow(gaussians)),
+                ~ .x + geom_function(
+                  fun = dnorm,
+                  args = list(mean = gaussians[.y, "mu"],
+                              sd = gaussians[.y, "sigma"]),
+                  mapping = aes(
+                    y = after_stat(y) / max(after_stat(y)) * gaussians[.y, "lambda"] / max(gaussians[, "lambda"]),
+                    colour = as.character(round(gaussians[.y, "mu"], 2))
+                  )
+                  
+                ),
+                .init = plot + labs(colour = "Peak", y = "Density"))
+}
+
+
+gauss_plot <- function(x, mu = c(0.3, 0.6, 0.9), sigma = 0.05) {
+  gauss <- get_gaussians(x, mu = mu, sigma = sigma)
+  
+  ggplot(data.frame(x = x), aes(x = x)) + 
+    geom_histogram(colour = "gray20",
+                   fill = "gray90",
+                   binwidth = 0.05,
+                   aes(y = ..ncount..),
+                   alpha = 0.4) + 
+    theme(legend.position = c(0.9,0.9), 
+          legend.justification = c(1,1)) +
+    theme_light() -> plt
+  
+  plt %>% 
+    add_gaussians(gauss)
+}
+
+```
+
+# The Target RNA
+
+Single-molecule FRET was carried out on dsnPPR10 with multiple RNA constructs.
+
+```{r}
+#| fig.cap: Transition density plot for the target RNA sample from smFRET experiments.
+transitions %>% 
+  filter(rna == 1) %>% 
+  tdp_plot() + 
+  labs(title = "Transition Density Plot")
+
+```
+
+From the transition density plot, there are appears to be three distinct states that the molecule visits when the target RNA is in the solution. There is a *low* *FRET* below \~ 0.5, there is a *mid-FRET* state between \~0.5 and \~ 0.7 and there is a *high-FRET* state that exists \> 0.7 FRET.
+
+This suggests that there may be an intermediate in the binding pathway of the protein, going from the unbound "open" *low-FRET* state to the medium, and then onto the *high-FRET* state as the final state of binding where the majority of the molecules spend their time.
+
+The FRET histogram for these molecules looks like below:
+
+```{r rna01-fret-histogram}
+#| fig.cap: FRET histogram of the protein with its RNA target.
+
+traces %>% 
+  filter(rna == 1) %>% 
+  ggplot(aes(fret)) + 
+  xlim(c(0,1)) + 
+  geom_histogram(
+    aes(y = ..ncount..),
+    colour = "gray20", 
+    fill = "gray90") + 
+  theme_light() + 
+  labs(x = "FRET", y = "Relative Count")
+```
+
+We can fit three gaussians to this FRET distribution, to see how the three potential states might be contributing to the overall distribution.
+
+```{r rna01-fret-histogram-gauss}
+#| fig.cap: FRET histogram of the protein with it's RNA target, with three gaussian distributions fitted fo the data.
+traces %>% 
+  filter(rna == 1, fret <= 1, fret >= 0) %>% 
+  pull(fret) %>% 
+  gauss_plot(mu = c(0.3, 0.6, 0.9)) + 
+  theme(legend.position = c(0.1,0.9), 
+        legend.justification = c(0,1), 
+        legend.background = element_rect(colour = "gray50"))
+```
+
+This same pattern of three distinct states is also apparent in the time-resolved FRET density plots, showing the density of FRET of all of the molecules observed over time.
+
+```{r time-density-rna01}
+#| fig.cap: FRET distribution over time after target RNA is injected at the 5 s mark. Plot shows a distinct mid-to-high FRET state that most of the molecules visit before moving to the highest FRET state.
+
+live_flow %>% 
+  filter(fret > -0.2, fret < 1.2) %>% 
+  time_density_plot()
+```

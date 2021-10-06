@@ -8,7 +8,9 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+## Overview of the Analaysis
+
+ * [Analysis Overview](overview.html)
 
 The first-look and playing around with the new traces that were shared with me from Bishnu:
 
@@ -22,7 +24,7 @@ Re-plotting some of the FRET distributions:
 Fitting the SPR Data:
 
  * [SPR Data](spr-modelling.html)
- * [Changing the Modelling](differential-fitting.html)
+ * [Changing the Modelling (App Shown Below)](differential-fitting.html)
 
 
 `r print(workflowr::wflow_toc())`
