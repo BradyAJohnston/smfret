@@ -1,7 +1,7 @@
-name: "smFRET Analysis"
+name: smFRET Analysis
 output_dir: ../docs
 navbar:
-  title: "smFRET"
+  title: smFRET
   left:
   - text: Home
     href: index.html
@@ -9,9 +9,13 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/BradyAJohnston/smfret
 output:
   workflowr::wflow_html:
     toc: yes
     toc_float: yes
     theme: sandstone
-    highlight: espresso
+    highlight: kate
