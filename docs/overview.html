@@ -18,7 +18,7 @@
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -31,9 +31,11 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -56,17 +58,114 @@ div.section {
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -229,7 +328,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -239,6 +404,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -280,6 +455,14 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Biophysical Studies of dsnPPR10</h1>
@@ -312,7 +495,7 @@ $(document).ready(function () {
 <strong>Last updated:</strong> 2021-10-06
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
 </p>
 <p>
 <strong>Knit directory:</strong> <code>smfret/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -333,7 +516,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -376,12 +559,39 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
 </p>
 </div>
-<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div id="strongCachestrongdetected" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+The following chunks had caches available:
+<ul>
+<li>
+functions
+</li>
+<li>
+rna01-fret-histogram
+</li>
+<li>
+rna01-fret-histogram-gauss
+</li>
+<li>
+session-info-chunk-inserted-by-workflowr
+</li>
+<li>
+spr-data
+</li>
+<li>
+time-density-rna01
+</li>
+<li>
+unnamed-chunk-1
+</li>
+<li>
+unnamed-chunk-2
+</li>
+</ul>
+<p>To ensure reproducibility of the results, delete the cache directory <code>overview_cache</code> and re-run the analysis. To have workflowr automatically delete the cache directory prior to building the file, set <code>delete_cache = TRUE</code> when running <code>wflow_build()</code> or <code>wflow_publish()</code>.</p>
 </div>
 </div>
 </div>
@@ -400,16 +610,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreecf3241d7822bce85d005beea32ab6c0085c6f977targetblankcf3241da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/cf3241d7822bce85d005beea32ab6c0085c6f977" target="_blank">cf3241d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettree107eb837f629306dec5aa7be3a8ff5c6c5180fc7targetblank107eb83a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/107eb837f629306dec5aa7be3a8ff5c6c5180fc7" target="_blank">107eb83</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreecf3241d7822bce85d005beea32ab6c0085c6f977targetblankcf3241da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettree107eb837f629306dec5aa7be3a8ff5c6c5180fc7targetblank107eb83a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/cf3241d7822bce85d005beea32ab6c0085c6f977" target="_blank">cf3241d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/107eb837f629306dec5aa7be3a8ff5c6c5180fc7" target="_blank">107eb83</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -418,15 +628,11 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/overview_cache/
     Ignored:    data/smfret-data
 
-Untracked files:
-    Untracked:  analysis/overview.Rmd
-    Untracked:  data/live-flow.rds
-
 Unstaged changes:
-    Modified:   analysis/formatting_data.Rmd
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/overview.Rmd
 
 </code></pre>
 <p>
@@ -439,179 +645,319 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/overview.Rmd</code>) and HTML (<code>docs/overview.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/107eb837f629306dec5aa7be3a8ff5c6c5180fc7/analysis/overview.Rmd" target="_blank">107eb83</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-06
+</td>
+<td>
+added overview
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/BradyAJohnston/smfret/107eb837f629306dec5aa7be3a8ff5c6c5180fc7/docs/overview.html" target="_blank">107eb83</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-06
+</td>
+<td>
+added overview
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
-<pre class="r"><code>library(tidyverse)
-
-
-traces &lt;- readRDS(&quot;data/all-traces.rds&quot;)
-transitions &lt;- readRDS(&quot;data/transitions.rds&quot;)
-spr &lt;- readRDS(&quot;~/Dropbox/BondLab/Data/SPR/spr.rds&quot;)
-live_flow &lt;- readRDS(&quot;data/live-flow.rds&quot;)</code></pre>
+<p>Setup code.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">warning =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">cache =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">autodep =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>traces <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/all-traces.rds&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>transitions <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/transitions.rds&quot;</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>spr <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;~/Dropbox/BondLab/Data/SPR/spr.rds&quot;</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>live_flow <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/live-flow.rds&quot;</span>)</span></code></pre></div>
 <div id="useful-functions" class="section level4">
 <h4>Useful Functions</h4>
-<pre class="r"><code>time_density_plot &lt;- function(data) {
-  data %&gt;% 
-    filter(fret &gt; 0, fret &lt; 1) %&gt;% 
-    mutate(frame = frame / 5) %&gt;% 
-    ggplot(aes(frame, fret)) + 
-    geom_point(alpha = 0.1, colour = &quot;gray30&quot;) +
-    stat_density_2d(aes(fill = ..ndensity.., alpha = ..ndensity..),
-                    geom = &quot;raster&quot;,
-                    n = 200,
-                    contour = FALSE) +
-    geom_density_2d(bins = 10, colour = &quot;white&quot;, contour_var = &quot;ndensity&quot;) +
-    scale_fill_viridis_c(option = &quot;D&quot;,
-                         direction = 1,
-                         limits = c(0.002, NA),
-                         # trans = &quot;log10&quot;,
-                         na.value = NA) +
-    scale_alpha_continuous(range = c(0.01, 0.8)) +
-    coord_cartesian(ylim = c(0,1), xlim = c(0,100)) + 
-    guides(alpha = &quot;none&quot;, 
-           fill = &quot;none&quot;) +
-    # theme_light() +
-    theme_linedraw() +
-    labs(x = &quot;Time (s)&quot;, y = &quot;FRET&quot;) +
-    scale_x_continuous(expand = c(0,0)) + 
-    scale_y_continuous(expand = c(0,0))
-}
-tdp_plot &lt;- function(data) {
-  data %&gt;% 
-    filter(from &gt; -0.2 &amp; from &lt; 1.2, 
-         to &gt; -0.2 &amp; to &lt; 1.2) %&gt;% 
-  ggplot(aes(from, to)) + 
-  stat_density_2d(
-    aes(fill = ..ndensity..,
-        alpha = log2(..ndensity.. + 1)),
-    geom = &quot;raster&quot;,
-    n = 400,
-    contour = FALSE,
-    h = c(0.2,0.2)
-  ) +
-  geom_density2d(
-    contour_var = &quot;ndensity&quot;,
-    n = 100,
-    bins = 15,
-    colour = &quot;black&quot;, alpha = 0.3
-  ) +
-  scale_fill_viridis_c(option = &quot;B&quot;, direction = 1) +
-  scale_alpha_continuous(range = c(0, 1)) +
-  
-  coord_cartesian(xlim = c(0,1), ylim = c(0,1)) + 
-  
-  guides(alpha = &quot;none&quot;, fill = &quot;none&quot;) +
-  
-  scale_x_continuous(expand = expansion(0), breaks = seq(0,1,0.2)) +
-  scale_y_continuous(expand = expansion(0), breaks = seq(0,1,0.2)) +
-  
-  labs(x = &quot;Before Transition&quot;, 
-       y = &quot;After Transition&quot;, 
-       y = &quot;Transition Density Plot&quot;) +
-  
-  theme_light() +
-  theme(
-    aspect.ratio = 1, 
-    # panel.background = element_rect(fill = &quot;gray90&quot;), 
-    panel.grid = element_line(colour = &quot;gray90&quot;)
-    )
-}
-
-get_gaussians &lt;- function(x,
-                          mu = c(0.3, 0.6, 0.9),
-                          sigma = 0.05) {
-  mixtools::normalmixEM(
-    x,
-    mu = mu,
-    sigma = sigma,
-    maxit = 1e4,
-    maxrestarts = 40
-  ) %&gt;%
-    .[c(&quot;mu&quot;, &quot;sigma&quot;, &quot;lambda&quot;)] %&gt;%
-    as.data.frame()
-}
-
-add_gaussians &lt;- function(plot, gaussians) {
-  purrr::reduce(seq(nrow(gaussians)),
-                ~ .x + geom_function(
-                  fun = dnorm,
-                  args = list(mean = gaussians[.y, &quot;mu&quot;],
-                              sd = gaussians[.y, &quot;sigma&quot;]),
-                  mapping = aes(
-                    y = after_stat(y) / max(after_stat(y)) * gaussians[.y, &quot;lambda&quot;] / max(gaussians[, &quot;lambda&quot;]),
-                    colour = as.character(round(gaussians[.y, &quot;mu&quot;], 2))
-                  )
-                  
-                ),
-                .init = plot + labs(colour = &quot;Peak&quot;, y = &quot;Density&quot;))
-}
-
-
-gauss_plot &lt;- function(x, mu = c(0.3, 0.6, 0.9), sigma = 0.05) {
-  gauss &lt;- get_gaussians(x, mu = mu, sigma = sigma)
-  
-  ggplot(data.frame(x = x), aes(x = x)) + 
-    geom_histogram(colour = &quot;gray20&quot;,
-                   fill = &quot;gray90&quot;,
-                   binwidth = 0.05,
-                   aes(y = ..ncount..),
-                   alpha = 0.4) + 
-    theme(legend.position = c(0.9,0.9), 
-          legend.justification = c(1,1)) +
-    theme_light() -&gt; plt
-  
-  plt %&gt;% 
-    add_gaussians(gauss)
-}</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>time_density_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(fret <span class="sc">&gt;</span> <span class="dv">0</span>, fret <span class="sc">&lt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">frame =</span> frame <span class="sc">/</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(frame, fret)) <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>, <span class="at">colour =</span> <span class="st">&quot;gray30&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_density_2d</span>(<span class="fu">aes</span>(<span class="at">fill =</span> ..ndensity.., <span class="at">alpha =</span> ..ndensity..),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">geom =</span> <span class="st">&quot;raster&quot;</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n =</span> <span class="dv">200</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">contour =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_density_2d</span>(<span class="at">bins =</span> <span class="dv">10</span>, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>, <span class="at">contour_var =</span> <span class="st">&quot;ndensity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;D&quot;</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">direction =</span> <span class="dv">1</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                         <span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">0.002</span>, <span class="cn">NA</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                         <span class="co"># trans = &quot;log10&quot;,</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                         <span class="at">na.value =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>)) <span class="sc">+</span> </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">alpha =</span> <span class="st">&quot;none&quot;</span>, </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>           <span class="at">fill =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># theme_light() +</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_linedraw</span>() <span class="sc">+</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;FRET&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>tdp_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(from <span class="sc">&gt;</span> <span class="sc">-</span><span class="fl">0.2</span> <span class="sc">&amp;</span> from <span class="sc">&lt;</span> <span class="fl">1.2</span>, </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>         to <span class="sc">&gt;</span> <span class="sc">-</span><span class="fl">0.2</span> <span class="sc">&amp;</span> to <span class="sc">&lt;</span> <span class="fl">1.2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(from, to)) <span class="sc">+</span> </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density_2d</span>(</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">fill =</span> ..ndensity..,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">alpha =</span> <span class="fu">log2</span>(..ndensity.. <span class="sc">+</span> <span class="dv">1</span>)),</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">&quot;raster&quot;</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="dv">400</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">contour =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">h =</span> <span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density2d</span>(</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">contour_var =</span> <span class="st">&quot;ndensity&quot;</span>,</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="dv">100</span>,</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">bins =</span> <span class="dv">15</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.3</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;B&quot;</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">alpha =</span> <span class="st">&quot;none&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="dv">0</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.2</span>)) <span class="sc">+</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="dv">0</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.2</span>)) <span class="sc">+</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Before Transition&quot;</span>, </span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;After Transition&quot;</span>, </span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Transition Density Plot&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">aspect.ratio =</span> <span class="dv">1</span>, </span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># panel.background = element_rect(fill = &quot;gray90&quot;), </span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">&quot;gray90&quot;</span>)</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>get_gaussians <span class="ot">&lt;-</span> <span class="cf">function</span>(x,</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>                          <span class="at">mu =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>),</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sigma =</span> <span class="fl">0.05</span>) {</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  mixtools<span class="sc">::</span><span class="fu">normalmixEM</span>(</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>    x,</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> mu,</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma =</span> sigma,</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">maxit =</span> <span class="fl">1e4</span>,</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">maxrestarts =</span> <span class="dv">40</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>    .[<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;lambda&quot;</span>)] <span class="sc">%&gt;%</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>()</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>add_gaussians <span class="ot">&lt;-</span> <span class="cf">function</span>(plot, gaussians) {</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">reduce</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(gaussians)),</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span> .x <span class="sc">+</span> <span class="fu">geom_function</span>(</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fun =</span> dnorm,</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>                  <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> gaussians[.y, <span class="st">&quot;mu&quot;</span>],</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sd =</span> gaussians[.y, <span class="st">&quot;sigma&quot;</span>]),</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">after_stat</span>(y) <span class="sc">/</span> <span class="fu">max</span>(<span class="fu">after_stat</span>(y)) <span class="sc">*</span> gaussians[.y, <span class="st">&quot;lambda&quot;</span>] <span class="sc">/</span> <span class="fu">max</span>(gaussians[, <span class="st">&quot;lambda&quot;</span>]),</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colour =</span> <span class="fu">as.character</span>(<span class="fu">round</span>(gaussians[.y, <span class="st">&quot;mu&quot;</span>], <span class="dv">2</span>))</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>                  )</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>                  </span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>                ),</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>                <span class="at">.init =</span> plot <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">colour =</span> <span class="st">&quot;Peak&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Density&quot;</span>))</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>gauss_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">mu =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>), <span class="at">sigma =</span> <span class="fl">0.05</span>) {</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>  gauss <span class="ot">&lt;-</span> <span class="fu">get_gaussians</span>(x, <span class="at">mu =</span> mu, <span class="at">sigma =</span> sigma)</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x), <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span> </span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">colour =</span> <span class="st">&quot;gray20&quot;</span>,</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> <span class="st">&quot;gray90&quot;</span>,</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>                   <span class="at">binwidth =</span> <span class="fl">0.05</span>,</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">aes</span>(<span class="at">y =</span> ..ncount..),</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>                   <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> </span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.9</span>), </span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="ot">-&gt;</span> plt</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>  plt <span class="sc">%&gt;%</span> </span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_gaussians</span>(gauss)</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="the-target-rna" class="section level1">
-<h1>The Target RNA</h1>
+<div id="smfret-of-target" class="section level1">
+<h1>smFRET of Target</h1>
+<div id="tdp" class="section level2">
+<h2>TDP</h2>
 <p>Single-molecule FRET was carried out on dsnPPR10 with multiple RNA constructs.</p>
-<pre class="r"><code>transitions %&gt;% 
-  filter(rna == 1) %&gt;% 
-  tdp_plot() + 
-  labs(title = &quot;Transition Density Plot&quot;)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>transitions <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rna <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tdp_plot</span>() <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Transition Density Plot&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/overview.Rmd/unnamed-chunk-1-1.png" alt="Transition density plot for the target RNA sample from smFRET experiments." width="672" />
 <p class="caption">
 Transition density plot for the target RNA sample from smFRET experiments.
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/107eb837f629306dec5aa7be3a8ff5c6c5180fc7/docs/figure/overview.Rmd/unnamed-chunk-1-1.png" target="_blank">107eb83</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>From the transition density plot, there are appears to be three distinct states that the molecule visits when the target RNA is in the solution. There is a <em>low</em> <em>FRET</em> below ~ 0.5, there is a <em>mid-FRET</em> state between ~0.5 and ~ 0.7 and there is a <em>high-FRET</em> state that exists &gt; 0.7 FRET.</p>
 <p>This suggests that there may be an intermediate in the binding pathway of the protein, going from the unbound “open” <em>low-FRET</em> state to the medium, and then onto the <em>high-FRET</em> state as the final state of binding where the majority of the molecules spend their time.</p>
+</div>
+<div id="fret-histogram" class="section level2">
+<h2>FRET Histogram</h2>
 <p>The FRET histogram for these molecules looks like below:</p>
-<pre class="r"><code>traces %&gt;% 
-  filter(rna == 1) %&gt;% 
-  ggplot(aes(fret)) + 
-  xlim(c(0,1)) + 
-  geom_histogram(
-    aes(y = ..ncount..),
-    colour = &quot;gray20&quot;, 
-    fill = &quot;gray90&quot;) + 
-  theme_light() + 
-  labs(x = &quot;FRET&quot;, y = &quot;Relative Count&quot;)</code></pre>
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>Warning: Removed 459 rows containing non-finite values (stat_bin).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>traces <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rna <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fret)) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y =</span> ..ncount..),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="fl">0.05</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;gray20&quot;</span>, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;gray90&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;FRET&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Relative Count&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/overview.Rmd/rna01-fret-histogram-1.png" alt="FRET histogram of the protein with its RNA target." width="672" />
 <p class="caption">
 FRET histogram of the protein with its RNA target.
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-rna01-fret-histogram-1">
+Past versions of rna01-fret-histogram-1.png
+</button>
+</p>
+<div id="fig-rna01-fret-histogram-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/107eb837f629306dec5aa7be3a8ff5c6c5180fc7/docs/figure/overview.Rmd/rna01-fret-histogram-1.png" target="_blank">107eb83</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We can fit three gaussians to this FRET distribution, to see how the three potential states might be contributing to the overall distribution.</p>
-<pre class="r"><code>traces %&gt;% 
-  filter(rna == 1, fret &lt;= 1, fret &gt;= 0) %&gt;% 
-  pull(fret) %&gt;% 
-  gauss_plot(mu = c(0.3, 0.6, 0.9)) + 
-  theme(legend.position = c(0.1,0.9), 
-        legend.justification = c(0,1), 
-        legend.background = element_rect(colour = &quot;gray50&quot;))</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>traces <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rna <span class="sc">==</span> <span class="dv">1</span>, fret <span class="sc">&lt;=</span> <span class="dv">1</span>, fret <span class="sc">&gt;=</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(fret) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gauss_plot</span>(<span class="at">mu =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>)) <span class="sc">+</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>), </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">&quot;gray50&quot;</span>))</span></code></pre></div>
 <pre><code>number of iterations= 402 </code></pre>
 <div class="figure" style="text-align: center">
 <img src="figure/overview.Rmd/rna01-fret-histogram-gauss-1.png" alt="FRET histogram of the protein with it's RNA target, with three gaussian distributions fitted fo the data." width="672" />
@@ -619,17 +965,146 @@ FRET histogram of the protein with its RNA target.
 FRET histogram of the protein with it’s RNA target, with three gaussian distributions fitted fo the data.
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-rna01-fret-histogram-gauss-1">
+Past versions of rna01-fret-histogram-gauss-1.png
+</button>
+</p>
+<div id="fig-rna01-fret-histogram-gauss-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/107eb837f629306dec5aa7be3a8ff5c6c5180fc7/docs/figure/overview.Rmd/rna01-fret-histogram-gauss-1.png" target="_blank">107eb83</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="time-density-plot" class="section level2">
+<h2>Time-Density Plot</h2>
 <p>This same pattern of three distinct states is also apparent in the time-resolved FRET density plots, showing the density of FRET of all of the molecules observed over time.</p>
-<pre class="r"><code>live_flow %&gt;% 
-  filter(fret &gt; -0.2, fret &lt; 1.2) %&gt;% 
-  time_density_plot()</code></pre>
-<pre><code>Warning: Removed 7796 rows containing missing values (geom_raster).</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>live_flow <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fret <span class="sc">&gt;</span> <span class="sc">-</span><span class="fl">0.2</span>, fret <span class="sc">&lt;</span> <span class="fl">1.2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">time_density_plot</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/overview.Rmd/time-density-rna01-1.png" alt="FRET distribution over time after target RNA is injected at the 5 s mark. Plot shows a distinct mid-to-high FRET state that most of the molecules visit before moving to the highest FRET state." width="672" />
 <p class="caption">
 FRET distribution over time after target RNA is injected at the 5 s mark. Plot shows a distinct mid-to-high FRET state that most of the molecules visit before moving to the highest FRET state.
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-time-density-rna01-1">
+Past versions of time-density-rna01-1.png
+</button>
+</p>
+<div id="fig-time-density-rna01-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/107eb837f629306dec5aa7be3a8ff5c6c5180fc7/docs/figure/overview.Rmd/time-density-rna01-1.png" target="_blank">107eb83</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="spr-of-target" class="section level1">
+<h1>SPR of Target</h1>
+<p>Along with the smFRET experiments, data from Surface Plasmon Resonance experiments were also collected. These experiments showed binding and association of the protein with all 13 of the different RNA, show distinct association and dissociation of the protein with the different targets depending on their differences to the target sequence.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>spr[<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(spr), <span class="dv">10</span>), ] <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, Response, <span class="at">colour =</span> RNA)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Response Units (RU)&quot;</span>)</span></code></pre></div>
+<p><img src="figure/overview.Rmd/spr-data-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The target RNA (RNA01) shows the best binding and the slowest dissociation, as you would expect.</p>
+<p>Interestingly, despite having a high binding affinity (K<span class="math inline">\(_{d}\)</span> = ~ 1 nM), the reaction does not reach equilibrium even after 300 seconds and the response units do not plateau. In the dissociation phase, it does not follow a typical single-exponential decay as you would expect from a single-step dissociation. However you can fit a double-exponential decay and get a reasonable fit to the dissociation curve, indicating that there is likely a two-step dissociation going on.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> spr[<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(spr), <span class="dv">10</span>), ] <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">rna =</span> RNA, <span class="at">resp =</span> Response) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rna <span class="sc">==</span> <span class="st">&quot;RNA01&quot;</span>, time <span class="sc">&gt;</span> <span class="dv">300</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span>  df <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nls</span>(resp <span class="sc">~</span> <span class="fu">SSasymp</span>(time, <span class="at">R0 =</span> A1, <span class="at">lrc =</span> t1,  <span class="at">Asym =</span> Asym), <span class="at">data =</span> .)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nls</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    resp <span class="sc">~</span> <span class="fu">SSbiexp</span>(time, A1, t1, A2, t2), </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> .</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>lines <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> df<span class="sc">$</span>time,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Single&quot;</span> <span class="ot">=</span> model<span class="sc">$</span>m<span class="sc">$</span><span class="fu">predict</span>(), </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Double&quot;</span> <span class="ot">=</span> model2<span class="sc">$</span>m<span class="sc">$</span><span class="fu">predict</span>()</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(Single, Double), <span class="at">values_to =</span> <span class="st">&quot;resp&quot;</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, resp)) <span class="sc">+</span> </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> lines, </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">linetype =</span> name), </span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">1</span>, </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.6</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;dashed&quot;</span>, <span class="st">&quot;dotted&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">linetype =</span> <span class="st">&quot;Exponential Decay</span><span class="sc">\n</span><span class="st">Model&quot;</span>, </span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>, </span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Response Units (RU)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.8</span>), </span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">&quot;gray70&quot;</span>))</span></code></pre></div>
+<p><img src="figure/overview.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>All of these results point to some intermediate step in the binding and unbinding process, that so far has not been captured by the bound and unbound structures of the dsnPPR10 protein, and no mention of such binding mechanisms or intermediates appears in the PPR literature.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -637,7 +1112,7 @@ FRET distribution over time after target RNA is injected at the 5 s mark. Plot s
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
 <pre><code>R version 4.1.0 (2021-05-18)
 Platform: x86_64-apple-darwin17.0 (64-bit)
 Running under: macOS Big Sur 10.16
@@ -661,22 +1136,22 @@ loaded via a namespace (and not attached):
  [1] mixtools_1.2.0    httr_1.4.2        sass_0.4.0        jsonlite_1.7.2   
  [5] viridisLite_0.4.0 splines_4.1.0     modelr_0.1.8      bslib_0.2.5.1    
  [9] assertthat_0.2.1  highr_0.9         cellranger_1.1.0  yaml_2.2.1       
-[13] pillar_1.6.3      backports_1.2.1   lattice_0.20-44   glue_1.4.2       
+[13] lattice_0.20-44   pillar_1.6.3      backports_1.2.1   glue_1.4.2       
 [17] digest_0.6.28     promises_1.2.0.1  rvest_1.0.1       colorspace_2.0-2 
 [21] htmltools_0.5.2   httpuv_1.6.3      Matrix_1.3-4      pkgconfig_2.0.3  
-[25] broom_0.7.9       haven_2.4.3       scales_1.1.1      later_1.3.0      
-[29] tzdb_0.1.2        git2r_0.28.0      generics_0.1.0    farver_2.1.0     
-[33] ellipsis_0.3.2    withr_2.4.2       cli_3.0.1         survival_3.2-12  
-[37] magrittr_2.0.1    crayon_1.4.1      readxl_1.3.1      evaluate_0.14    
-[41] fs_1.5.0          fansi_0.5.0       MASS_7.3-54       segmented_1.3-4  
-[45] xml2_1.3.2        tools_4.1.0       hms_1.1.1         lifecycle_1.0.1  
-[49] kernlab_0.9-29    munsell_0.5.0     reprex_2.0.1      isoband_0.2.5    
-[53] compiler_4.1.0    jquerylib_0.1.4   rlang_0.4.11      grid_4.1.0       
-[57] rstudioapi_0.13   labeling_0.4.2    rmarkdown_2.11    gtable_0.3.0     
-[61] DBI_1.1.1         R6_2.5.1          lubridate_1.7.10  knitr_1.36       
-[65] fastmap_1.1.0     utf8_1.2.2        workflowr_1.6.2   rprojroot_2.0.2  
-[69] stringi_1.7.4     Rcpp_1.0.7        vctrs_0.3.8       dbplyr_2.1.1     
-[73] tidyselect_1.1.1  xfun_0.26        </code></pre>
+[25] broom_0.7.9       haven_2.4.3       scales_1.1.1      whisker_0.4      
+[29] later_1.3.0       tzdb_0.1.2        git2r_0.28.0      generics_0.1.0   
+[33] farver_2.1.0      ellipsis_0.3.2    withr_2.4.2       cli_3.0.1        
+[37] survival_3.2-12   magrittr_2.0.1    crayon_1.4.1      readxl_1.3.1     
+[41] evaluate_0.14     fs_1.5.0          fansi_0.5.0       MASS_7.3-54      
+[45] segmented_1.3-4   xml2_1.3.2        tools_4.1.0       hms_1.1.1        
+[49] lifecycle_1.0.1   kernlab_0.9-29    munsell_0.5.0     reprex_2.0.1     
+[53] isoband_0.2.5     compiler_4.1.0    jquerylib_0.1.4   rlang_0.4.11     
+[57] grid_4.1.0        rstudioapi_0.13   labeling_0.4.2    rmarkdown_2.11   
+[61] gtable_0.3.0      codetools_0.2-18  DBI_1.1.1         R6_2.5.1         
+[65] lubridate_1.7.10  knitr_1.36        fastmap_1.1.0     utf8_1.2.2       
+[69] workflowr_1.6.2   rprojroot_2.0.2   stringi_1.7.4     Rcpp_1.0.7       
+[73] vctrs_0.3.8       dbplyr_2.1.1      tidyselect_1.1.1  xfun_0.26        </code></pre>
 </div>
 </div>
 
@@ -696,6 +1171,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -727,7 +1204,41 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

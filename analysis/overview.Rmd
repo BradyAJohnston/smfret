@@ -2,16 +2,20 @@
 title: "Biophysical Studies of dsnPPR10"
 author: "Brady Johnston"
 date: "2021-10-06"
-output:
-  workflowr::wflow_html:
-  code_folding: hide
+output: 
+    workflowr::wflow_html:
+      code_folding: hide
 editor_options:
   chunk_output_type: console
 ---
 
+Setup code.
+
 ```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
-
+knitr::opts_chunk$set(warning = FALSE, 
+                      cache = TRUE, 
+                      autodep = TRUE)
 
 traces <- readRDS("data/all-traces.rds")
 transitions <- readRDS("data/transitions.rds")
@@ -138,7 +142,9 @@ gauss_plot <- function(x, mu = c(0.3, 0.6, 0.9), sigma = 0.05) {
 
 ```
 
-# The Target RNA
+# smFRET of Target
+
+## TDP
 
 Single-molecule FRET was carried out on dsnPPR10 with multiple RNA constructs.
 
@@ -155,9 +161,11 @@ From the transition density plot, there are appears to be three distinct states 
 
 This suggests that there may be an intermediate in the binding pathway of the protein, going from the unbound "open" *low-FRET* state to the medium, and then onto the *high-FRET* state as the final state of binding where the majority of the molecules spend their time.
 
+## FRET Histogram
+
 The FRET histogram for these molecules looks like below:
 
-```{r rna01-fret-histogram}
+```{r rna01-fret-histogram, warning=FALSE}
 #| fig.cap: FRET histogram of the protein with its RNA target.
 
 traces %>% 
@@ -166,6 +174,7 @@ traces %>%
   xlim(c(0,1)) + 
   geom_histogram(
     aes(y = ..ncount..),
+    binwidth = 0.05,
     colour = "gray20", 
     fill = "gray90") + 
   theme_light() + 
@@ -185,12 +194,73 @@ traces %>%
         legend.background = element_rect(colour = "gray50"))
 ```
 
+## Time-Density Plot
+
 This same pattern of three distinct states is also apparent in the time-resolved FRET density plots, showing the density of FRET of all of the molecules observed over time.
 
-```{r time-density-rna01}
+```{r time-density-rna01, warning=FALSE}
 #| fig.cap: FRET distribution over time after target RNA is injected at the 5 s mark. Plot shows a distinct mid-to-high FRET state that most of the molecules visit before moving to the highest FRET state.
 
 live_flow %>% 
   filter(fret > -0.2, fret < 1.2) %>% 
   time_density_plot()
 ```
+
+# SPR of Target
+
+Along with the smFRET experiments, data from Surface Plasmon Resonance experiments were also collected. These experiments showed binding and association of the protein with all 13 of the different RNA, show distinct association and dissociation of the protein with the different targets depending on their differences to the target sequence.
+
+```{r spr-data}
+spr[seq(1, nrow(spr), 10), ] %>% 
+  ggplot(aes(time, Response, colour = RNA)) +
+  geom_line() + 
+  theme_light() + 
+  theme(legend.position = "bottom") + 
+  labs(x = "Time (s)", 
+       y = "Response Units (RU)")
+```
+
+The target RNA (RNA01) shows the best binding and the slowest dissociation, as you would expect.
+
+Interestingly, despite having a high binding affinity (K$_{d}$ = \~ 1 nM), the reaction does not reach equilibrium even after 300 seconds and the response units do not plateau. In the dissociation phase, it does not follow a typical single-exponential decay as you would expect from a single-step dissociation. However you can fit a double-exponential decay and get a reasonable fit to the dissociation curve, indicating that there is likely a two-step dissociation going on.
+
+```{r}
+df <- spr[seq(1, nrow(spr), 10), ] %>% 
+  rename(rna = RNA, resp = Response) %>% 
+  filter(rna == "RNA01", time > 300)
+
+model <-  df %>% 
+  nls(resp ~ SSasymp(time, R0 = A1, lrc = t1,  Asym = Asym), data = .)
+
+model2 <- df %>% 
+  nls(
+    resp ~ SSbiexp(time, A1, t1, A2, t2), 
+    data = .
+  )
+
+lines <- data.frame(
+  time = df$time,
+  "Single" = model$m$predict(), 
+  "Double" = model2$m$predict()
+) %>% 
+  pivot_longer(c(Single, Double), values_to = "resp")
+
+df %>% 
+  ggplot(aes(time, resp)) + 
+  geom_line(colour = "red", alpha = 0.5, size = 1) +
+  geom_line(
+    data = lines, 
+    aes(linetype = name), 
+    size = 1, 
+    alpha = 0.6
+  ) +
+  scale_linetype_manual(values = c("dashed", "dotted")) +
+  theme_light() + 
+  labs(linetype = "Exponential Decay\nModel", 
+       x = "Time (s)", 
+       y = "Response Units (RU)") + 
+  theme(legend.position = c(0.8, 0.8), 
+        legend.background = element_rect(colour = "gray70"))
+```
+
+All of these results point to some intermediate step in the binding and unbinding process, that so far has not been captured by the bound and unbound structures of the dsnPPR10 protein, and no mention of such binding mechanisms or intermediates appears in the PPR literature.
