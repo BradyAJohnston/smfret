@@ -18,7 +18,7 @@
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -36,8 +36,6 @@
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -58,17 +56,114 @@ div.section {
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -389,7 +484,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-03
+<strong>Last updated:</strong> 2021-10-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -413,7 +508,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -480,16 +575,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreee3e330f1516a430600f48d2e8a7fdd97bede0b79targetblanke3e330fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/e3e330f1516a430600f48d2e8a7fdd97bede0b79" target="_blank">e3e330f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreec92520bd1c82cfb13dd0ff2e39f58744260a1ccbtargetblankc92520ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/c92520bd1c82cfb13dd0ff2e39f58744260a1ccb" target="_blank">c92520b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreee3e330f1516a430600f48d2e8a7fdd97bede0b79targetblanke3e330fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreec92520bd1c82cfb13dd0ff2e39f58744260a1ccbtargetblankc92520ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/e3e330f1516a430600f48d2e8a7fdd97bede0b79" target="_blank">e3e330f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/c92520bd1c82cfb13dd0ff2e39f58744260a1ccb" target="_blank">c92520b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -501,11 +596,15 @@ Ignored files:
     Ignored:    data/smfret-data
 
 Untracked files:
-    Untracked:  analysis/spr-modelling.Rmd
+    Untracked:  analysis/fret-distributions.Rmd
+    Untracked:  spr-rates.R
 
 Unstaged changes:
+    Modified:   analysis/_site.yml
     Modified:   analysis/differential-fitting.Rmd
     Modified:   analysis/formatting_data.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/spr-modelling.Rmd
 
 </code></pre>
 <p>
@@ -518,16 +617,76 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/spr-modelling.Rmd</code>) and HTML (<code>docs/spr-modelling.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/50f2d31044049c66c2c0de51e352b499e9255e13/analysis/spr-modelling.Rmd" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+<td>
+did some SPR modelling for decay curves
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/BradyAJohnston/smfret/50f2d31044049c66c2c0de51e352b499e9255e13/docs/spr-modelling.html" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+<td>
+did some SPR modelling for decay curves
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
 <p>Modelling the decay of protein binding in SPR.</p>
-<pre class="r"><code>df &lt;- readr::read_rds(&quot;~/Dropbox/BondLab/Data/SPR/spr.rds&quot;)
-df</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_rds</span>(<span class="st">&quot;~/Dropbox/BondLab/Data/SPR/spr.rds&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code># A tibble: 178,932 × 3
     time RNA   Response
    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
@@ -543,148 +702,350 @@ df</code></pre>
 10   -80 RNA10   0.0232
 # … with 178,922 more rows</code></pre>
 <p>There are a lot of time points per second, so fitting of models will be slow. We can sub-sample some of the points, to make modelling and plotting quicker and easier.</p>
-<pre class="r"><code>df &lt;- df %&gt;% 
-  filter(time %% 1 == 0) %&gt;% 
-  rename(rna = RNA, resp = Response)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">%%</span> <span class="dv">1</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">rna =</span> RNA, <span class="at">resp =</span> Response)</span></code></pre></div>
 <p>The response chromatograms for the SPR experiments are shown, with application of the RNA at <code>0</code> s and the washout commencing at <code>300</code> s.</p>
-<pre class="r"><code>df %&gt;% 
-  # filter(str_detect(rna, &quot;01|02|03|04&quot;)) %&gt;% 
-  ggplot(aes(time, resp, colour = rna)) + 
-  geom_line() + 
-  theme_classic() + 
-  labs(x = &quot;Time (s)&quot;, 
-       y = &quot;Response Units (RU)&quot;, 
-       colour = &quot;Sample RNA&quot;) + 
-  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(str_detect(rna, &quot;01|02|03|04&quot;)) %&gt;% </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, resp, <span class="at">colour =</span> rna)) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Response Units (RU)&quot;</span>, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">colour =</span> <span class="st">&quot;Sample RNA&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/spr-modelling.Rmd/unnamed-chunk-3-1.png" alt="SPR response chromatograms of all RNA samples tested." width="672" />
 <p class="caption">
 SPR response chromatograms of all RNA samples tested.
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/50f2d31044049c66c2c0de51e352b499e9255e13/docs/figure/spr-modelling.Rmd/unnamed-chunk-3-1.png" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="response-profiles" class="section level2">
 <h2>Response Profiles</h2>
 <p>There are distinct shapes to the response profiles in the SPR traces. The target RNA01 shows a <em>bi-phasic</em> dissociation after the washout step begins. This indicates there it is not a single-step dissociation event occurring.</p>
 <p>Dissociation can be modelled with a single-exponential decay model, with bi-phasic disssociation being able to be modelled with a double exponential decay model.</p>
 <p>First we can look at the decay of the target RNA01.</p>
-<pre class="r"><code>df %&gt;% 
-  filter(time &gt; 300, 
-         rna == &quot;RNA01&quot;) %&gt;% 
-  ggplot(aes(time, resp)) + 
-  geom_line() + 
-  theme_light()</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">&gt;</span> <span class="dv">300</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>         rna <span class="sc">==</span> <span class="st">&quot;RNA01&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, resp)) <span class="sc">+</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
 <p><img src="figure/spr-modelling.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/50f2d31044049c66c2c0de51e352b499e9255e13/docs/figure/spr-modelling.Rmd/unnamed-chunk-4-1.png" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>If we try to fit a single-exponential decay model to this data, we see the following fit.</p>
-<pre class="r"><code>decay_data &lt;- df %&gt;% 
-  filter(time &gt; 300, 
-         rna == &quot;RNA01&quot;)
-
-single_model &lt;- nls(resp ~ SSasymp(time, Asym, R0, lrc), data = decay_data)
-
-decay_plot &lt;- decay_data %&gt;% 
-  ggplot(aes(time, resp)) + 
-  geom_point() + 
-  theme_light() + 
-  labs(x = &quot;Time (s)&quot;, 
-       y = &quot;Response Units (RU)&quot;)
-
-plot1 &lt;- decay_plot +
-  geom_line(
-    data = data.frame(
-      time = decay_data$time, 
-      resp = single_model$m$fitted()
-    ), 
-    colour = &quot;tomato&quot;, 
-    size = 2
-  )
-
-plot1</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>decay_data <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">&gt;</span> <span class="dv">300</span>, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         rna <span class="sc">==</span> <span class="st">&quot;RNA01&quot;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>single_model <span class="ot">&lt;-</span> <span class="fu">nls</span>(resp <span class="sc">~</span> <span class="fu">SSasymp</span>(time, Asym, R0, lrc), <span class="at">data =</span> decay_data)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>decay_plot <span class="ot">&lt;-</span> decay_data <span class="sc">%&gt;%</span> </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, resp)) <span class="sc">+</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>, </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Response Units (RU)&quot;</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> decay_plot <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">time =</span> decay_data<span class="sc">$</span>time, </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">resp =</span> single_model<span class="sc">$</span>m<span class="sc">$</span><span class="fu">fitted</span>()</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;tomato&quot;</span>, </span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">2</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>plot1</span></code></pre></div>
 <p><img src="figure/spr-modelling.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/50f2d31044049c66c2c0de51e352b499e9255e13/docs/figure/spr-modelling.Rmd/unnamed-chunk-5-1.png" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The curve does not fit well do the data. Not let us fit a double-exponential decay model.</p>
-<pre class="r"><code>double_model &lt;- nls(
-  resp ~ SSbiexp(time, A1, t1, A2, t2), 
-  data = decay_data
-)
-
-plot2 &lt;- decay_plot + 
-  geom_line(
-    data = data.frame(
-      time = decay_data$time, 
-      resp = double_model$m$fitted()
-    ), 
-    colour = &quot;tomato&quot;, 
-    size = 2
-  )
-
-
-patchwork::wrap_plots(
-  plot1 + labs(title = &quot;Single Exponential Decay&quot;), 
-  plot2 + labs(title = &quot;Double Exponential Decay&quot;), 
-  ncol = 2
-)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>double_model <span class="ot">&lt;-</span> <span class="fu">nls</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  resp <span class="sc">~</span> <span class="fu">SSbiexp</span>(time, A1, t1, A2, t2), </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> decay_data</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> decay_plot <span class="sc">+</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">time =</span> decay_data<span class="sc">$</span>time, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">resp =</span> double_model<span class="sc">$</span>m<span class="sc">$</span><span class="fu">fitted</span>()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;tomato&quot;</span>, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">1</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  plot1 <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Single Exponential Decay&quot;</span>), </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  plot2 <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Double Exponential Decay&quot;</span>), </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p><img src="figure/spr-modelling.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/50f2d31044049c66c2c0de51e352b499e9255e13/docs/figure/spr-modelling.Rmd/unnamed-chunk-6-1.png" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>This is a much better fit in comparison to the previous, which is certainly supportive of the model that this is not a single dissociation event that is occurring, instead that there are multiple steps that the protein must go through in order to unbind the RNA target, each with differing rates.</p>
 <p>The fit is still not ideal, suggesting that potentially the interactions that are going on are still more complex than we can model, but trying to model any more steps to the process will be very unreliable and likely lead to incorrect over-fitting.</p>
-<pre class="r"><code>double_model_plot &lt;- function(decay_data, title) {
-  single_model &lt;-
-    nls(resp ~ SSasymp(time, Asym, R0, lrc), data = decay_data)
-  
-  decay_plot &lt;- decay_data %&gt;% 
-    ggplot(aes(time, resp)) + 
-    geom_point() + 
-    theme_light() + 
-    labs(x = &quot;Time (s)&quot;, 
-         y = &quot;Response Units (RU)&quot;)
-  
-  plot1 &lt;- decay_plot +
-    geom_line(
-      data = data.frame(
-        time = decay_data$time, 
-        resp = single_model$m$fitted(), 
-        model = factor(&quot;Single Exponential&quot;, 
-                       levels = c(&quot;Single Exponential&quot;, 
-                                  &quot;Double Exponential&quot;))
-      ), 
-      colour = &quot;tomato&quot;, 
-      size = 2
-    )
-  
-  double_model &lt;- nls(
-    resp ~ SSbiexp(time, A1, t1, A2, t2), 
-    data = decay_data
-  )
-  
-  plot2 &lt;- plot1 + 
-    geom_line(
-      data = data.frame(
-        time = decay_data$time, 
-        resp = double_model$m$fitted(), 
-        model = factor(&quot;Double Exponential&quot;, 
-                       levels = c(&quot;Single Exponential&quot;, 
-                                  &quot;Double Exponential&quot;))
-      ), 
-      colour = &quot;tomato&quot;, 
-      size = 2
-    )
-  
-  print(plot2 + 
-          facet_wrap(~model, nrow = 1) + 
-          labs(title = title))
-}
-
-double_model_plot(decay_data, &quot;Testing RNA1&quot;)</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>double_model_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(decay_data, title) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  single_model <span class="ot">&lt;-</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nls</span>(resp <span class="sc">~</span> <span class="fu">SSasymp</span>(time, Asym, R0, lrc), <span class="at">data =</span> decay_data)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  decay_plot <span class="ot">&lt;-</span> decay_data <span class="sc">%&gt;%</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, resp)) <span class="sc">+</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (s)&quot;</span>, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Response Units (RU)&quot;</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  plot1 <span class="ot">&lt;-</span> decay_plot <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">time =</span> decay_data<span class="sc">$</span>time, </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">resp =</span> single_model<span class="sc">$</span>m<span class="sc">$</span><span class="fu">fitted</span>(), </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">model =</span> <span class="fu">factor</span>(<span class="st">&quot;Single Exponential&quot;</span>, </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Single Exponential&quot;</span>, </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&quot;Double Exponential&quot;</span>))</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>      ), </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">&quot;tomato&quot;</span>, </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">1</span>, </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  double_model <span class="ot">&lt;-</span> <span class="fu">nls</span>(</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    resp <span class="sc">~</span> <span class="fu">SSbiexp</span>(time, A1, t1, A2, t2), </span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> decay_data</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  plot2 <span class="ot">&lt;-</span> plot1 <span class="sc">+</span> </span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">time =</span> decay_data<span class="sc">$</span>time, </span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">resp =</span> double_model<span class="sc">$</span>m<span class="sc">$</span><span class="fu">fitted</span>(), </span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">model =</span> <span class="fu">factor</span>(<span class="st">&quot;Double Exponential&quot;</span>, </span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Single Exponential&quot;</span>, </span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&quot;Double Exponential&quot;</span>))</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>      ), </span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">&quot;tomato&quot;</span>, </span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">1</span>, </span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  naming_vector <span class="ot">&lt;-</span> mdfret<span class="sc">::</span>rna_table<span class="sc">$</span>html_seq</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(naming_vector) <span class="ot">&lt;-</span> mdfret<span class="sc">::</span>rna_table<span class="sc">$</span>rna</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(plot2 <span class="sc">+</span> </span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>          <span class="fu">facet_wrap</span>(<span class="sc">~</span>model, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>          <span class="fu">labs</span>(<span class="at">title =</span> naming_vector[<span class="fu">str_extract</span>(title, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>                                       <span class="fu">str_remove</span>(<span class="st">&quot;0&quot;</span>)]) <span class="sc">+</span> </span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>          <span class="fu">theme</span>(</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>            <span class="at">plot.title =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>()</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="fu">double_model_plot</span>(decay_data, <span class="st">&quot;Testing RNA1&quot;</span>)</span></code></pre></div>
 <p><img src="figure/spr-modelling.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Apply it to all of the different RNA.</p>
-<pre class="r"><code>df %&gt;% 
-  filter(time &gt; 300) %&gt;% 
-  group_by(rna) %&gt;% 
-  nest() %&gt;% 
-  mutate(
-    plot = map2(data, rna, possibly(double_model_plot, NA))
-  )</code></pre>
-<p><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/50f2d31044049c66c2c0de51e352b499e9255e13/docs/figure/spr-modelling.Rmd/unnamed-chunk-7-1.png" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Attempt to apply this principle to all of the remaining RNA.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">&gt;</span> <span class="dv">300</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rna) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot =</span> <span class="fu">map2</span>(data, rna, <span class="fu">possibly</span>(double_model_plot, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                                    <span class="cn">NA</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">quiet =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div>
+<pre><code>Error: singular gradient</code></pre>
+<p><img src="figure/spr-modelling.Rmd/all-rna-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/all-rna-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Error: singular gradient</code></pre>
+<p><img src="figure/spr-modelling.Rmd/all-rna-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/all-rna-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/all-rna-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/all-rna-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/all-rna-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/spr-modelling.Rmd/all-rna-8.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>Warning in log(-coef(lm(log(ydiff) ~ x, data = xy))[[2L]]): NaNs produced</code></pre>
-<p><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-9.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Error: Missing value or an infinity produced when evaluating the model
+Error: singular gradient</code></pre>
+<p><img src="figure/spr-modelling.Rmd/all-rna-9.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code># A tibble: 13 × 3
 # Groups:   rna [13]
    rna   data               plot     
@@ -702,6 +1063,117 @@ double_model_plot(decay_data, &quot;Testing RNA1&quot;)</code></pre>
 11 RNA11 &lt;tibble [996 × 2]&gt; &lt;gg&gt;     
 12 RNA12 &lt;tibble [996 × 2]&gt; &lt;lgl [1]&gt;
 13 RNA13 &lt;tibble [996 × 2]&gt; &lt;lgl [1]&gt;</code></pre>
+<p>We are unable to fit the models to some of the traces, despite that there should be enough data for the model to fit successfully.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">&gt;</span> <span class="dv">300</span>, time <span class="sc">&lt;</span> <span class="dv">500</span>, rna <span class="sc">==</span> <span class="st">&quot;RNA11&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, <span class="fu">jitter</span>(resp, <span class="dv">100</span>))) <span class="sc">+</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> <span class="st">&quot;y ~ log(x)&quot;</span>)</span></code></pre></div>
+<pre><code>`geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/50f2d31044049c66c2c0de51e352b499e9255e13/docs/figure/spr-modelling.Rmd/unnamed-chunk-8-1.png" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># df %&gt;% </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(time &gt; 300, time &lt; 400, rna == &quot;RNA13&quot;) %&gt;% </span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   nls(</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     jitter(resp, 10000) ~ A1 * exp(-time / t1) + A2 * exp(-time / t2) + y0, </span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#       data = .,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#       start = list(</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#         y0 = 0,</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         A1 = 2.6, </span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#         t1 = 67, </span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#         A2 = 13, </span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#         t2 = 12</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#       )) </span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">&gt;</span> <span class="dv">300</span>, rna <span class="sc">==</span> <span class="st">&quot;RNA11&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">resp =</span> <span class="fu">jitter</span>(resp, <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  biochemr<span class="sc">::</span><span class="fu">b_dose_resp</span>(time, resp, rna, <span class="at">.model =</span> drc<span class="sc">::</span><span class="fu">EXD.3</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># biochemr::b_coefs()</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  biochemr<span class="sc">::</span><span class="fu">b_plot</span>()</span></code></pre></div>
+<p><img src="figure/spr-modelling.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-2">
+Past versions of unnamed-chunk-8-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/50f2d31044049c66c2c0de51e352b499e9255e13/docs/figure/spr-modelling.Rmd/unnamed-chunk-8-2.png" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># df %&gt;% </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(time &gt; 300, rna == &quot;RNA11&quot;) %&gt;% </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   mutate(resp = jitter(resp, 1)) %&gt;% </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   nls(resp ~ A1 * exp(-time / t1), </span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#       data = ., </span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#       start = list(</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#         A1 = 2.6, </span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         t1 = 400</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#       )) -&gt; model2</span></span></code></pre></div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -709,7 +1181,7 @@ double_model_plot(decay_data, &quot;Testing RNA1&quot;)</code></pre>
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
 <pre><code>R version 4.1.0 (2021-05-18)
 Platform: x86_64-apple-darwin17.0 (64-bit)
 Running under: macOS Big Sur 10.16
@@ -730,22 +1202,38 @@ other attached packages:
  [9] tidyverse_1.3.1 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.7       lubridate_1.7.10 assertthat_0.2.1 rprojroot_2.0.2 
- [5] digest_0.6.28    utf8_1.2.2       R6_2.5.1         cellranger_1.1.0
- [9] backports_1.2.1  reprex_2.0.1     evaluate_0.14    highr_0.9       
-[13] httr_1.4.2       pillar_1.6.3     rlang_0.4.11     readxl_1.3.1    
-[17] rstudioapi_0.13  jquerylib_0.1.4  rmarkdown_2.11   labeling_0.4.2  
-[21] munsell_0.5.0    broom_0.7.9      compiler_4.1.0   httpuv_1.6.3    
-[25] modelr_0.1.8     xfun_0.26        pkgconfig_2.0.3  htmltools_0.5.2 
-[29] tidyselect_1.1.1 fansi_0.5.0      crayon_1.4.1     tzdb_0.1.2      
-[33] dbplyr_2.1.1     withr_2.4.2      later_1.3.0      grid_4.1.0      
-[37] jsonlite_1.7.2   gtable_0.3.0     lifecycle_1.0.1  DBI_1.1.1       
-[41] git2r_0.28.0     magrittr_2.0.1   scales_1.1.1     cli_3.0.1       
-[45] stringi_1.7.4    farver_2.1.0     fs_1.5.0         promises_1.2.0.1
-[49] xml2_1.3.2       bslib_0.2.5.1    ellipsis_0.3.2   generics_0.1.0  
-[53] vctrs_0.3.8      tools_4.1.0      glue_1.4.2       hms_1.1.1       
-[57] fastmap_1.1.0    yaml_2.2.1       colorspace_2.0-2 rvest_1.0.1     
-[61] knitr_1.36       haven_2.4.3      patchwork_1.1.1  sass_0.4.0      </code></pre>
+ [1] nlme_3.1-152        ggtext_0.1.1        fs_1.5.0           
+ [4] lubridate_1.7.10    httr_1.4.2          rprojroot_2.0.2    
+ [7] tools_4.1.0         backports_1.2.1     bslib_0.2.5.1      
+[10] utf8_1.2.2          R6_2.5.1            DBI_1.1.1          
+[13] mgcv_1.8-36         colorspace_2.0-2    withr_2.4.2        
+[16] tidyselect_1.1.1    curl_4.3.2          compiler_4.1.0     
+[19] git2r_0.28.0        cli_3.0.1           rvest_1.0.1        
+[22] xml2_1.3.2          sandwich_3.0-1      labeling_0.4.2     
+[25] sass_0.4.0          scales_1.1.1        mvtnorm_1.1-2      
+[28] biochemr_0.1.0.9000 digest_0.6.28       foreign_0.8-81     
+[31] rmarkdown_2.11      rio_0.5.27          pkgconfig_2.0.3    
+[34] htmltools_0.5.2     plotrix_3.8-2       dbplyr_2.1.1       
+[37] fastmap_1.1.0       highr_0.9           rlang_0.4.11       
+[40] readxl_1.3.1        rstudioapi_0.13     jquerylib_0.1.4    
+[43] farver_2.1.0        generics_0.1.0      zoo_1.8-9          
+[46] jsonlite_1.7.2      gtools_3.9.2        zip_2.2.0          
+[49] car_3.0-11          magrittr_2.0.1      mdfret_0.1.4       
+[52] patchwork_1.1.1     Matrix_1.3-4        Rcpp_1.0.7         
+[55] munsell_0.5.0       fansi_0.5.0         abind_1.4-5        
+[58] lifecycle_1.0.1     multcomp_1.4-17     stringi_1.7.4      
+[61] whisker_0.4         yaml_2.2.1          carData_3.0-4      
+[64] MASS_7.3-54         grid_4.1.0          promises_1.2.0.1   
+[67] crayon_1.4.1        lattice_0.20-44     haven_2.4.3        
+[70] splines_4.1.0       gridtext_0.1.4      hms_1.1.1          
+[73] knitr_1.36          pillar_1.6.3        markdown_1.1       
+[76] codetools_0.2-18    reprex_2.0.1        glue_1.4.2         
+[79] drc_3.0-1           evaluate_0.14       data.table_1.14.2  
+[82] modelr_0.1.8        vctrs_0.3.8         tzdb_0.1.2         
+[85] httpuv_1.6.3        cellranger_1.1.0    gtable_0.3.0       
+[88] assertthat_0.2.1    openxlsx_4.2.4      xfun_0.26          
+[91] broom_0.7.9         later_1.3.0         survival_3.2-12    
+[94] TH.data_1.1-0       ellipsis_0.3.2     </code></pre>
 </div>
 </div>
 

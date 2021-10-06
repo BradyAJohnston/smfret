@@ -11,12 +11,13 @@ editor_options:
 
 ```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
+
 ```
 
 
 # smFRET Traces
 
-The traces for the indiviual traces are in the following:
+The traces for the individual traces are in the following:
 ```{r}
 paths <- c(
   "0" = "data/smfret-data/RNA0/rename_path",
@@ -55,7 +56,7 @@ read_fun(list.files(paths[1], ".dat", full.names = TRUE))
 ```
 
 ## Read all of the Files in
-```{r}
+```{r, eval=FALSE}
 pbapply::pblapply(seq_along(paths), function(x) {
   df <- read_fun(list.files(paths[x], ".dat", full.names = TRUE))
   df$rna <- names(paths)[x]
@@ -223,6 +224,158 @@ cut_df %>%
   scale_y_continuous(expand = expansion(c(0,0))) + 
   theme_light() + 
   guides(fill = "none") +
-  labs(x = "Before Transition", y = "After Transition")
+  labs(x = "Before Transition", y = "After Transition") -> tdp_plot
+```
+
+```{r}
+clusters <- cut_df %>%
+  ungroup() %>% 
+  filter(rna == 1) %>% 
+  select(from, to) %>% 
+  drop_na() %>% 
+  kmeans(7, nstart = 100)
+  
+
+tdp_plot +
+  geom_point(
+    data = clusters$centers %>% 
+  as.data.frame(), 
+  mapping = aes(from, to), 
+  size = 4, 
+  colour = "white"
+  )
+
+traces %>% 
+  filter(rna == 1) %>% 
+  filter(fret < 1.2, fret > -0.2) %>%
+  ggplot(aes(frame / 5, fret)) + 
+  # geom_density2d_filled(
+  #   aes(alpha = after_stat(density)),
+  #   contour_var = "ndensity", 
+  #   bins = 20, 
+  #   n = 80
+  # ) + 
+  stat_density_2d(
+    geom = "raster", 
+    contour = FALSE, 
+    contour_var = "ndensity", 
+    mapping = aes(fill = ..ndensity.., 
+                  alpha = ..ndensity..)
+  ) +
+  scale_alpha_continuous(range = c(0.2, 0.9)) + 
+  scale_fill_viridis_c(option = "D", direction = 1) +
+  stat_density_2d() +
+  theme_light() +
+  coord_cartesian(ylim = c(0,1))
+```
+
+
+
+# Fitting Gaussians with `{mixtools}` to the histograms
+
+```{r}
+library(mixtools)
+
+get_gaussians <- function(x, mu = c(0.3, 0.6, 0.9), sigma = 0.05) {
+  normalmixEM(x, mu = mu, sigma = sigma, maxit = 1e4, maxrestarts = 40) %>% 
+    .[c("mu", "sigma", "lambda")] %>% 
+    as.data.frame()
+}
+
+add_gaussians <- function(plot, gaussians) {
+  purrr::reduce(seq(nrow(gaussians)),
+                ~ .x + geom_function(
+                  fun = dnorm,
+                  args = list(mean = gaussians[.y, "mu"],
+                              sd = gaussians[.y, "sigma"]),
+                  mapping = aes(
+                    y = after_stat(y) / max(after_stat(y)) * gaussians[.y, "lambda"] / max(gaussians[, "lambda"]),
+                    colour = as.character(round(gaussians[.y, "mu"], 2))
+                  )
+                  
+                ),
+                .init = plot + labs(colour = "Peak", y = "Density"))
+}
+
+
+gauss_plot <- function(x, mu = c(0.3, 0.6, 0.9), sigma = 0.05) {
+  gauss <- get_gaussians(x, mu = mu, sigma = sigma)
+  
+  ggplot(data.frame(x = x), aes(x = x)) + 
+    geom_histogram(colour = "gray20",
+                   fill = "gray90",
+                   binwidth = 0.05,
+                   aes(y = ..ncount..),
+                   alpha = 0.4) + 
+    theme(legend.position = c(0.9,0.9), 
+          legend.justification = c(1,1)) +
+    theme_light() -> plt
+  
+  plt %>% 
+    add_gaussians(gauss)
+}
+
+
+
+binned <- traces %>% 
+  filter(fret < 1, fret > 0) %>% 
+  group_by(rna)
+
+
+
+
+# future::plan(future::multisession, workers = 7)
+# tictoc::tic()
+# progressr::with_progress({
+#   p <- progressr::progressor(14)
+#   
+#   plotted <- binned %>% 
+#     group_by(rna) %>% 
+#     nest() %>% 
+#     ungroup() %>% 
+#     mutate(
+#       plot = furrr::future_map(data, function(x) {
+#         p()
+#         gauss_plot(pull(x, fret)) %>% print
+#       } 
+#     ))
+# })
+# tictoc::toc()
+```
+
+What about fitting gaussians to less observations, say we bin it first then we fit.
+
+```{r}
+plt12 <- traces %>%
+  filter(rna == 12, fret < 1, fret > 0) %>% 
+  mutate(
+    binned = cut(fret, breaks = seq(0, 1, by = 0.05), labels = FALSE) * 0.05
+  ) %>% 
+  group_by(binned) %>% 
+  # summarise(n = n()) %>% 
+  pull(binned) %>% 
+  gauss_plot(mu = c(0.2, 0.4, 0.6, 0.8)) + 
+  theme(legend.position = c(0.1,0.9),
+        legend.justification = c(0, 1))
+plt12 + 
+  theme(legend.position = c(0.1,0.9),
+        legend.justification = c(0, 1))
+
+plt0 <- traces %>%
+  filter(rna == 0, fret < 1, fret > 0) %>% 
+  mutate(
+    binned = cut(fret, breaks = seq(0, 1, by = 0.05), labels = FALSE) * 0.05
+  ) %>% 
+  group_by(binned) %>% 
+  # summarise(n = n()) %>% 
+  pull(binned) %>% 
+  gauss_plot(mu = c(0.2, 0.4, 0.6, 0.8)) + 
+  theme(legend.position = c(0,1),
+        legend.justification = c(-0.1, 1.1), 
+        legend.background = element_rect(colour = "gray20", 
+                                         fill = "white"))
+
+patchwork::wrap_plots(plt0, plt12)
+
 ```
 

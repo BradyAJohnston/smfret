@@ -1,0 +1,53 @@
+---
+title: "Plotting Distributions"
+author: "Brady Johnston"
+date: "05/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+theme_set(theme_light())
+
+named_vector <- function(data, values, names) {
+  vec <- pull(data, {{ values }})
+  names(vec) <- pull(data, {{ names }})
+  vec
+}
+```
+
+## R Markdown
+
+Plotting the fret distributions from the data collected.
+
+```{r read-data}
+#| fig.height = 10
+df <- readr::read_rds("data/all-traces.rds")
+
+df %>% 
+  # filter(rna == 1) %>% 
+  mutate(rna = factor(rna, levels = 0:13)) %>% 
+  ggplot(aes(fret, fill = rna)) + 
+  geom_histogram(
+    aes(y = ..ndensity..), 
+    binwidth = 0.05, 
+    colour = "gray20", 
+    # fill = "gray90"
+    ) + 
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(0, 1, 0.2)) +
+  labs(
+    x = "FRET",
+    y = "Density",
+    title = paste0("Relative distribution of RNA01")
+  ) +
+  facet_wrap( ~rna, 
+              ncol = 2, 
+              labeller = labeller(
+                rna = named_vector(mdfret::rna_table, html_seq, rna)
+              )) + 
+  theme(panel.grid = element_blank(),
+        strip.text = ggtext::element_markdown(family = "mono")
+        )
+```

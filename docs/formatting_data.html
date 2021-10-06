@@ -18,7 +18,7 @@
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -36,8 +36,6 @@
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -58,17 +56,114 @@ div.section {
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -389,7 +484,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-01
+<strong>Last updated:</strong> 2021-10-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -480,16 +575,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreedc10706c967b7d34731a6ede016d151fef0528catargetblankdc10706a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/dc10706c967b7d34731a6ede016d151fef0528ca" target="_blank">dc10706</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreec92520bd1c82cfb13dd0ff2e39f58744260a1ccbtargetblankc92520ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/c92520bd1c82cfb13dd0ff2e39f58744260a1ccb" target="_blank">c92520b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreedc10706c967b7d34731a6ede016d151fef0528catargetblankdc10706a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettreec92520bd1c82cfb13dd0ff2e39f58744260a1ccbtargetblankc92520ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/dc10706c967b7d34731a6ede016d151fef0528ca" target="_blank">dc10706</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/c92520bd1c82cfb13dd0ff2e39f58744260a1ccb" target="_blank">c92520b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -500,8 +595,16 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    data/smfret-data
 
+Untracked files:
+    Untracked:  analysis/fret-distributions.Rmd
+    Untracked:  spr-rates.R
+
 Unstaged changes:
+    Modified:   analysis/_site.yml
+    Modified:   analysis/differential-fitting.Rmd
     Modified:   analysis/formatting_data.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/spr-modelling.Rmd
 
 </code></pre>
 <p>
@@ -545,6 +648,57 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/50f2d31044049c66c2c0de51e352b499e9255e13/analysis/formatting_data.Rmd" target="_blank">50f2d31</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-03
+</td>
+<td>
+did some SPR modelling for decay curves
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/e3e330f1516a430600f48d2e8a7fdd97bede0b79/analysis/formatting_data.Rmd" target="_blank">e3e330f</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-01
+</td>
+<td>
+added rmarkdown app for changing cutoffs
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/BradyAJohnston/smfret/e3e330f1516a430600f48d2e8a7fdd97bede0b79/docs/formatting_data.html" target="_blank">e3e330f</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-01
+</td>
+<td>
+added rmarkdown app for changing cutoffs
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/BradyAJohnston/smfret/blob/6346059cd0f000cb1829bdab590dbd78ef796e3c/analysis/formatting_data.Rmd" target="_blank">6346059</a>
 </td>
 <td>
@@ -583,44 +737,44 @@ created the formatting_data.Rmd
 </div>
 <div id="smfret-traces" class="section level1">
 <h1>smFRET Traces</h1>
-<p>The traces for the indiviual traces are in the following:</p>
-<pre class="r"><code>paths &lt;- c(
-  &quot;0&quot; = &quot;data/smfret-data/RNA0/rename_path&quot;,
-  &quot;1&quot; = &quot;data/smfret-data/RNA1_target&quot;,
-  &quot;2&quot; = &quot;data/smfret-data/RNA2&quot;,
-  &quot;3&quot; = &quot;data/smfret-data/RNA3&quot;,
-  &quot;4&quot; = &quot;data/smfret-data/RNA4&quot;,
-  &quot;5&quot; = &quot;data/smfret-data/RNA5&quot;,
-  &quot;6&quot; = &quot;data/smfret-data/RNA6&quot;,
-  &quot;7&quot; = &quot;data/smfret-data/RNA7&quot;,
-  &quot;8&quot; = &quot;data/smfret-data/RNA8&quot;,
-  &quot;9&quot; = &quot;data/smfret-data/RNA9&quot;,
-  &quot;10&quot; = &quot;data/smfret-data/RNA10&quot;,
-  &quot;11&quot; = &quot;data/smfret-data/RNA11&quot;,
-  &quot;12&quot; = &quot;data/smfret-data/RNA12&quot;,
-  &quot;13&quot; = &quot;data/smfret-data/RNA13&quot;
-)
-
-head(paths)</code></pre>
+<p>The traces for the individual traces are in the following:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA0/rename_path&quot;</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA1_target&quot;</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;2&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA2&quot;</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;3&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA3&quot;</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;4&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA4&quot;</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;5&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA5&quot;</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;6&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA6&quot;</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;7&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA7&quot;</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;8&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA8&quot;</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;9&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA9&quot;</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;10&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA10&quot;</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;11&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA11&quot;</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;12&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA12&quot;</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;13&quot;</span> <span class="ot">=</span> <span class="st">&quot;data/smfret-data/RNA13&quot;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(paths)</span></code></pre></div>
 <pre><code>                                  0                                   1 
 &quot;data/smfret-data/RNA0/rename_path&quot;      &quot;data/smfret-data/RNA1_target&quot; 
                                   2                                   3 
             &quot;data/smfret-data/RNA2&quot;             &quot;data/smfret-data/RNA3&quot; 
                                   4                                   5 
             &quot;data/smfret-data/RNA4&quot;             &quot;data/smfret-data/RNA5&quot; </code></pre>
-<pre class="r"><code>read_fun &lt;- function(file) {
-  some_list &lt;- pbapply::pblapply(seq_along(file), function(x) {
-    df &lt;- readr::read_table(file[x], 
-                            col_types = readr::cols(), 
-                            col_names = c(&quot;frame&quot;, &quot;don&quot;, &quot;acc&quot;, &quot;fret&quot;, &quot;state&quot;))
-    df$mol &lt;- x
-    df
-  })
-  
-  do.call(rbind, some_list)
-}
-# read the first set of frames as test
-read_fun(list.files(paths[1], &quot;.dat&quot;, full.names = TRUE))</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>read_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(file) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  some_list <span class="ot">&lt;-</span> pbapply<span class="sc">::</span><span class="fu">pblapply</span>(<span class="fu">seq_along</span>(file), <span class="cf">function</span>(x) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_table</span>(file[x], </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">col_types =</span> readr<span class="sc">::</span><span class="fu">cols</span>(), </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;frame&quot;</span>, <span class="st">&quot;don&quot;</span>, <span class="st">&quot;acc&quot;</span>, <span class="st">&quot;fret&quot;</span>, <span class="st">&quot;state&quot;</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    df<span class="sc">$</span>mol <span class="ot">&lt;-</span> x</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    df</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, some_list)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># read the first set of frames as test</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">read_fun</span>(<span class="fu">list.files</span>(paths[<span class="dv">1</span>], <span class="st">&quot;.dat&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code># A tibble: 14,876 × 6
    frame   don   acc  fret state   mol
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
@@ -637,52 +791,39 @@ read_fun(list.files(paths[1], &quot;.dat&quot;, full.names = TRUE))</code></pre>
 # … with 14,866 more rows</code></pre>
 <div id="read-all-of-the-files-in" class="section level2">
 <h2>Read all of the Files in</h2>
-<pre class="r"><code>pbapply::pblapply(seq_along(paths), function(x) {
-  df &lt;- read_fun(list.files(paths[x], &quot;.dat&quot;, full.names = TRUE))
-  df$rna &lt;- names(paths)[x]
-  df
-}) %&gt;% 
-  do.call(rbind, .) -&gt; df
-
-df</code></pre>
-<pre><code># A tibble: 260,908 × 7
-   frame   don   acc  fret state   mol rna  
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;
- 1     1 1067. 1013. 0.487 0.307     1 0    
- 2     2  996.  906. 0.476 0.307     1 0    
- 3     3 1469. 1197. 0.449 0.307     1 0    
- 4     4 1581. 1005. 0.389 0.307     1 0    
- 5     5 2183. 1250. 0.364 0.307     1 0    
- 6     6 2114. 1135. 0.349 0.307     1 0    
- 7     7 2110. 1163. 0.355 0.307     1 0    
- 8     8 1825.  995. 0.353 0.307     1 0    
- 9     9 1304.  720. 0.356 0.307     1 0    
-10    10 1357.  488. 0.265 0.307     1 0    
-# … with 260,898 more rows</code></pre>
-<pre class="r"><code>saveRDS(df, file = &quot;data/all-traces.rds&quot;)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pbapply<span class="sc">::</span><span class="fu">pblapply</span>(<span class="fu">seq_along</span>(paths), <span class="cf">function</span>(x) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">read_fun</span>(<span class="fu">list.files</span>(paths[x], <span class="st">&quot;.dat&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>rna <span class="ot">&lt;-</span> <span class="fu">names</span>(paths)[x]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  df</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, .) <span class="ot">-&gt;</span> df</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>df</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(df, <span class="at">file =</span> <span class="st">&quot;data/all-traces.rds&quot;</span>)</span></code></pre></div>
 </div>
 <div id="calculate-all-of-the-state-changes" class="section level2">
 <h2>Calculate all of the state-changes</h2>
-<pre class="r"><code>traces &lt;- readr::read_rds(&quot;data/all-traces.rds&quot;)
-
-transitions &lt;- traces %&gt;% 
-  group_by(rna, mol) %&gt;% 
-  mutate(
-    from = state,
-    to = lead(from), # get what the current state will transition to (next row)
-    new_state = lag(from) != from, 
-    new_state = if_else(is.na(new_state), FALSE, new_state),
-    state_no = 1 + cumsum(new_state)
-  ) %&gt;% 
-  group_by(rna, mol, state_no) %&gt;% 
-  summarise(
-    frames = n(),         # number of frames in this state
-    time = n() / 5,       # numer of frames in seconds (frames = 0.2 s)
-    from = last(from),    # get the last entry in from
-    to = last(to)         # get the last entry in to
-  )</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>traces <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_rds</span>(<span class="st">&quot;data/all-traces.rds&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>transitions <span class="ot">&lt;-</span> traces <span class="sc">%&gt;%</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rna, mol) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">from =</span> state,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">to =</span> <span class="fu">lead</span>(from), <span class="co"># get what the current state will transition to (next row)</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_state =</span> <span class="fu">lag</span>(from) <span class="sc">!=</span> from, </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_state =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(new_state), <span class="cn">FALSE</span>, new_state),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">state_no =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">cumsum</span>(new_state)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rna, mol, state_no) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">frames =</span> <span class="fu">n</span>(),         <span class="co"># number of frames in this state</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">n</span>() <span class="sc">/</span> <span class="dv">5</span>,       <span class="co"># numer of frames in seconds (frames = 0.2 s)</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">from =</span> <span class="fu">last</span>(from),    <span class="co"># get the last entry in from</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">to =</span> <span class="fu">last</span>(to)         <span class="co"># get the last entry in to</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>`summarise()` has grouped output by &#39;rna&#39;, &#39;mol&#39;. You can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>transitions</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>transitions</span></code></pre></div>
 <pre><code># A tibble: 11,258 × 7
 # Groups:   rna, mol [1,316]
    rna     mol state_no frames  time  from     to
@@ -698,45 +839,64 @@ transitions &lt;- traces %&gt;%
  9 0         2        8      4   0.8 0.187  0.353
 10 0         2        9     15   3   0.353  0.187
 # … with 11,248 more rows</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(transitions, <span class="st">&quot;data/transitions.rds&quot;</span>)</span></code></pre></div>
 </div>
 <div id="cutting-the-states" class="section level2">
 <h2>Cutting the states</h2>
-<pre class="r"><code>state_cutoffs &lt;- c(0, 0.49, 0.7, 1)
-
-cut_df &lt;- transitions %&gt;% 
-  filter(time &lt; 21) %&gt;% 
-  mutate(
-    from = case_when(
-      from &gt; 1 ~ 1, 
-      from &lt; 0 ~ 0, 
-      TRUE     ~ from
-    ), 
-    to = case_when(
-      to &gt; 1 ~ 1, 
-      to &lt; 0 ~ 0, 
-      TRUE   ~ to
-    ),
-    from_cut = cut(from, breaks = state_cutoffs, labels = FALSE),
-    to_cut   = cut(to, breaks = state_cutoffs, labels = FALSE)
-  )</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>state_cutoffs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.49</span>, <span class="fl">0.7</span>, <span class="dv">1</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>cut_df <span class="ot">&lt;-</span> transitions <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">&lt;</span> <span class="dv">21</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">from =</span> <span class="fu">case_when</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      from <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      from <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">0</span>, </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span>     <span class="sc">~</span> from</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">to =</span> <span class="fu">case_when</span>(</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>      to <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>      to <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">0</span>, </span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span>   <span class="sc">~</span> to</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">from_cut =</span> <span class="fu">cut</span>(from, <span class="at">breaks =</span> state_cutoffs, <span class="at">labels =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">to_cut   =</span> <span class="fu">cut</span>(to, <span class="at">breaks =</span> state_cutoffs, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>cut_df <span class="sc">%&gt;%</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(to))</span></code></pre></div>
+<pre><code># A tibble: 990 × 9
+# Groups:   rna, mol [990]
+   rna     mol state_no frames  time  from    to from_cut to_cut
+   &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt;  &lt;int&gt;
+ 1 0         2       26     13   2.6 0.187    NA        1     NA
+ 2 0         5        1      5   1   0.184    NA        1     NA
+ 3 0         6        1     23   4.6 0.229    NA        1     NA
+ 4 0         8        1     11   2.2 0.279    NA        1     NA
+ 5 0         9        1     34   6.8 0.244    NA        1     NA
+ 6 0        10        1     19   3.8 0.337    NA        1     NA
+ 7 0        11        1     58  11.6 0.209    NA        1     NA
+ 8 0        12        1     41   8.2 0.267    NA        1     NA
+ 9 0        13        1     59  11.8 0.266    NA        1     NA
+10 0        15        1     41   8.2 0.177    NA        1     NA
+# … with 980 more rows</code></pre>
 </div>
 <div id="bin-the-transitions-from-state-3" class="section level2">
 <h2>Bin the transitions from state 3</h2>
-<pre class="r"><code>state_3 &lt;- cut_df %&gt;% 
-  filter(from_cut == 3) %&gt;% 
-  ungroup() %&gt;% 
-  mutate(
-    time_bin = cut(time, breaks = seq(0, max(ceiling(time)), by = 1), labels = FALSE)
-  ) %&gt;% 
-  group_by(rna, time_bin) %&gt;% 
-  summarise(n = n()) %&gt;% 
-  mutate(nn = n / max(n))</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>state_3 <span class="ot">&lt;-</span> cut_df <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(from_cut <span class="sc">==</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">time_bin =</span> <span class="fu">cut</span>(time, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(<span class="fu">ceiling</span>(time)), <span class="at">by =</span> <span class="dv">1</span>), <span class="at">labels =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rna, time_bin) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nn =</span> n <span class="sc">/</span> <span class="fu">max</span>(n))</span></code></pre></div>
 <pre><code>`summarise()` has grouped output by &#39;rna&#39;. You can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>drc::drm(
-  nn ~ time_bin, 
-  data = filter(state_3, rna == 1), 
-  fct = drc::EXD.2(names = c(&quot;max&quot;, &quot;rate&quot;))
-)</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>drc<span class="sc">::</span><span class="fu">drm</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  nn <span class="sc">~</span> time_bin, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">filter</span>(state_3, rna <span class="sc">==</span> <span class="dv">1</span>), </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fct =</span> drc<span class="sc">::</span><span class="fu">EXD.2</span>(<span class="at">names =</span> <span class="fu">c</span>(<span class="st">&quot;max&quot;</span>, <span class="st">&quot;rate&quot;</span>))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>
 A &#39;drc&#39; model.
 
@@ -749,54 +909,269 @@ Coefficients:
 </div>
 <div id="fit-exponential-decay-models-to-the-binned-times" class="section level2">
 <h2>Fit exponential decay models to the binned times</h2>
-<pre class="r"><code>fitted_3 &lt;- state_3 %&gt;% 
-  biochemr::b_dose_resp(time_bin, nn, rna, 
-                        .model = drc::EXD.2(names = c(&quot;max&quot;, &quot;rate&quot;))) %&gt;% 
-  mutate(rna = as.numeric(rna))</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fitted_3 <span class="ot">&lt;-</span> state_3 <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  biochemr<span class="sc">::</span><span class="fu">b_dose_resp</span>(time_bin, nn, rna, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">.model =</span> drc<span class="sc">::</span><span class="fu">EXD.2</span>(<span class="at">names =</span> <span class="fu">c</span>(<span class="st">&quot;max&quot;</span>, <span class="st">&quot;rate&quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rna =</span> <span class="fu">as.numeric</span>(rna))</span></code></pre></div>
 </div>
 <div id="plot-the-decays-and-the-calculated-half-lives." class="section level2">
 <h2>Plot the decays and the calculated half lives.</h2>
-<pre class="r"><code>decay_plot &lt;- fitted_3 %&gt;% 
-  biochemr::b_plot() + 
-  facet_wrap(~rna, ncol = 1, strip.position = &quot;left&quot;) +
-  # theme_void() + 
-  geom_col(
-    data = fitted_3 %&gt;% unnest(data), 
-    aes(dose, resp, fill = factor(rna)), 
-    alpha = 0.3
-  ) + 
-  guides(fill = &quot;none&quot;) +
-  theme_classic() + 
-  theme(
-    axis.text.y = element_blank(), 
-    axis.ticks.y = element_blank(), 
-    strip.text = element_blank(), 
-    strip.background = element_blank()
-  )
-# decay_plot
-
-rate_plot &lt;- fitted_3 %&gt;% 
-  biochemr::b_coefs() %&gt;% 
-  filter(term == &quot;rate&quot;) %&gt;% 
-  ggplot(aes(estimate, 
-             reorder(rna, -as.numeric(rna)), 
-             colour = factor(rna))) + 
-  geom_errorbarh(aes(
-    xmin = estimate - std.error, 
-    xmax = estimate + std.error
-  ), 
-   colour = &quot;black&quot;, 
-  height = 0.2) + 
-  geom_point(size = 3) + 
-  theme_light() + 
-  coord_cartesian(xlim = c(0, 7)) +
-  guides(colour = &quot;none&quot;) + 
-  # facet_wrap(~factor(rna), ncol = 1, scales = &quot;free_y&quot;) + 
-  theme(strip.background = element_blank(), 
-        strip.text = element_blank())
-
-patchwork::wrap_plots(rate_plot, decay_plot, ncol = 2)</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>decay_plot <span class="ot">&lt;-</span> fitted_3 <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  biochemr<span class="sc">::</span><span class="fu">b_plot</span>() <span class="sc">+</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>rna, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">strip.position =</span> <span class="st">&quot;left&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># theme_void() + </span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> fitted_3 <span class="sc">%&gt;%</span> <span class="fu">unnest</span>(data), </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(dose, resp, <span class="at">fill =</span> <span class="fu">factor</span>(rna)), </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.3</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.background =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co"># decay_plot</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>rate_plot <span class="ot">&lt;-</span> fitted_3 <span class="sc">%&gt;%</span> </span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  biochemr<span class="sc">::</span><span class="fu">b_coefs</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;rate&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(estimate, </span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>             <span class="fu">reorder</span>(rna, <span class="sc">-</span><span class="fu">as.numeric</span>(rna)), </span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="fu">factor</span>(rna))) <span class="sc">+</span> </span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">xmin =</span> estimate <span class="sc">-</span> std.error, </span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">xmax =</span> estimate <span class="sc">+</span> std.error</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  ), </span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>   <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">7</span>)) <span class="sc">+</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># facet_wrap(~factor(rna), ncol = 1, scales = &quot;free_y&quot;) + </span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Half Life (s)&quot;</span>, </span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">&quot;RNA Sample&quot;</span>)</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(rate_plot, decay_plot, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p><img src="figure/formatting_data.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/e3e330f1516a430600f48d2e8a7fdd97bede0b79/docs/figure/formatting_data.Rmd/unnamed-chunk-9-1.png" target="_blank">e3e330f</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="need-to-fix-this-error." class="section level2">
+<h2>Need to fix this error.</h2>
+<p>Currently the binning is discarding those states which didn’t transition. For the molecules that make it to the higher state and the do no transition into lower states, despite staying there for a long period of time, this would be severely biasing the models generating to the shorter time periods that don’t include these long-lived molecules in their states.</p>
+<p>Need to re-bin them, and include those that don’t transition but are just in the last state for a long time.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cut1 <span class="ot">&lt;-</span> <span class="fl">0.49</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>cut2 <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>cut_df <span class="sc">%&gt;%</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rna <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(from, to)) <span class="sc">+</span> </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density2d_filled</span>(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">contour_var =</span> <span class="st">&quot;ndensity&quot;</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">bins =</span> <span class="dv">20</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="dv">80</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span> </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">xend =</span> x2, <span class="at">y =</span> y1, <span class="at">yend =</span> y2), </span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x1 =</span> <span class="fu">c</span>(cut1, cut2, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), </span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x2 =</span> <span class="fu">c</span>(cut1, cut2, cut1, cut2, <span class="dv">1</span>),</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y1 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, cut1, cut2, <span class="dv">0</span>), </span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y2 =</span> <span class="fu">c</span>(cut1, cut2, cut1, cut2, <span class="dv">1</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>               )) <span class="sc">+</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))) <span class="sc">+</span> </span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))) <span class="sc">+</span> </span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Before Transition&quot;</span>, <span class="at">y =</span> <span class="st">&quot;After Transition&quot;</span>) <span class="ot">-&gt;</span> tdp_plot</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>clusters <span class="ot">&lt;-</span> cut_df <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rna <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kmeans</span>(<span class="dv">7</span>, <span class="at">nstart =</span> <span class="dv">100</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>tdp_plot <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> clusters<span class="sc">$</span>centers <span class="sc">%&gt;%</span> </span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(), </span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(from, to), </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">4</span>, </span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">colour =</span> <span class="st">&quot;white&quot;</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>Warning: Removed 113 rows containing non-finite values (stat_density2d_filled).</code></pre>
+<p><img src="figure/formatting_data.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>traces <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rna <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fret <span class="sc">&lt;</span> <span class="fl">1.2</span>, fret <span class="sc">&gt;</span> <span class="sc">-</span><span class="fl">0.2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(frame <span class="sc">/</span> <span class="dv">5</span>, fret)) <span class="sc">+</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_density2d_filled(</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   aes(alpha = after_stat(density)),</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   contour_var = &quot;ndensity&quot;, </span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   bins = 20, </span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   n = 80</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ) + </span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density_2d</span>(</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">&quot;raster&quot;</span>, </span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">contour =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">contour_var =</span> <span class="st">&quot;ndensity&quot;</span>, </span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">fill =</span> ..ndensity.., </span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha =</span> ..ndensity..)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.9</span>)) <span class="sc">+</span> </span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;D&quot;</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density_2d</span>() <span class="sc">+</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="figure/formatting_data.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="fitting-gaussians-with-mixtools-to-the-histograms" class="section level1">
+<h1>Fitting Gaussians with <code>{mixtools}</code> to the histograms</h1>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mixtools)</span></code></pre></div>
+<pre><code>mixtools package, version 1.2.0, Released 2020-02-05
+This package is based upon work supported by the National Science Foundation under Grant No. SES-0518772.</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>get_gaussians <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">mu =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>), <span class="at">sigma =</span> <span class="fl">0.05</span>) {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">normalmixEM</span>(x, <span class="at">mu =</span> mu, <span class="at">sigma =</span> sigma, <span class="at">maxit =</span> <span class="fl">1e4</span>, <span class="at">maxrestarts =</span> <span class="dv">40</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    .[<span class="fu">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;lambda&quot;</span>)] <span class="sc">%&gt;%</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>()</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>add_gaussians <span class="ot">&lt;-</span> <span class="cf">function</span>(plot, gaussians) {</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">reduce</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(gaussians)),</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span> .x <span class="sc">+</span> <span class="fu">geom_function</span>(</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fun =</span> dnorm,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> gaussians[.y, <span class="st">&quot;mu&quot;</span>],</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sd =</span> gaussians[.y, <span class="st">&quot;sigma&quot;</span>]),</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">after_stat</span>(y) <span class="sc">/</span> <span class="fu">max</span>(<span class="fu">after_stat</span>(y)) <span class="sc">*</span> gaussians[.y, <span class="st">&quot;lambda&quot;</span>] <span class="sc">/</span> <span class="fu">max</span>(gaussians[, <span class="st">&quot;lambda&quot;</span>]),</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colour =</span> <span class="fu">as.character</span>(<span class="fu">round</span>(gaussians[.y, <span class="st">&quot;mu&quot;</span>], <span class="dv">2</span>))</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>                  )</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>                  </span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>                ),</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">.init =</span> plot <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">colour =</span> <span class="st">&quot;Peak&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Density&quot;</span>))</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>gauss_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">mu =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>), <span class="at">sigma =</span> <span class="fl">0.05</span>) {</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>  gauss <span class="ot">&lt;-</span> <span class="fu">get_gaussians</span>(x, <span class="at">mu =</span> mu, <span class="at">sigma =</span> sigma)</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x), <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span> </span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">colour =</span> <span class="st">&quot;gray20&quot;</span>,</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> <span class="st">&quot;gray90&quot;</span>,</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>                   <span class="at">binwidth =</span> <span class="fl">0.05</span>,</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">aes</span>(<span class="at">y =</span> ..ncount..),</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>                   <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> </span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.9</span>), </span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="ot">-&gt;</span> plt</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>  plt <span class="sc">%&gt;%</span> </span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_gaussians</span>(gauss)</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>binned <span class="ot">&lt;-</span> traces <span class="sc">%&gt;%</span> </span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fret <span class="sc">&lt;</span> <span class="dv">1</span>, fret <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rna)</span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a><span class="co"># future::plan(future::multisession, workers = 7)</span></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a><span class="co"># tictoc::tic()</span></span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a><span class="co"># progressr::with_progress({</span></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="co">#   p &lt;- progressr::progressor(14)</span></span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a><span class="co">#   plotted &lt;- binned %&gt;% </span></span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a><span class="co">#     group_by(rna) %&gt;% </span></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a><span class="co">#     nest() %&gt;% </span></span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a><span class="co">#     ungroup() %&gt;% </span></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a><span class="co">#     mutate(</span></span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a><span class="co">#       plot = furrr::future_map(data, function(x) {</span></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a><span class="co">#         p()</span></span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a><span class="co">#         gauss_plot(pull(x, fret)) %&gt;% print</span></span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a><span class="co">#       } </span></span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a><span class="co">#     ))</span></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a><span class="co"># })</span></span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a><span class="co"># tictoc::toc()</span></span></code></pre></div>
+<p>What about fitting gaussians to less observations, say we bin it first then we fit.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plt12 <span class="ot">&lt;-</span> traces <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rna <span class="sc">==</span> <span class="dv">12</span>, fret <span class="sc">&lt;</span> <span class="dv">1</span>, fret <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">binned =</span> <span class="fu">cut</span>(fret, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.05</span>), <span class="at">labels =</span> <span class="cn">FALSE</span>) <span class="sc">*</span> <span class="fl">0.05</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(binned) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># summarise(n = n()) %&gt;% </span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(binned) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gauss_plot</span>(<span class="at">mu =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span> </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>),</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>number of iterations= 1274 </code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>plt12 <span class="sc">+</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>),</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
+<p><img src="figure/formatting_data.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plt0 <span class="ot">&lt;-</span> traces <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rna <span class="sc">==</span> <span class="dv">0</span>, fret <span class="sc">&lt;</span> <span class="dv">1</span>, fret <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">binned =</span> <span class="fu">cut</span>(fret, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.05</span>), <span class="at">labels =</span> <span class="cn">FALSE</span>) <span class="sc">*</span> <span class="fl">0.05</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(binned) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># summarise(n = n()) %&gt;% </span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(binned) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gauss_plot</span>(<span class="at">mu =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span> </span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">1.1</span>), </span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">&quot;gray20&quot;</span>, </span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>))</span></code></pre></div>
+<pre><code>number of iterations= 488 </code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(plt0, plt12)</span></code></pre></div>
+<p><img src="figure/formatting_data.Rmd/unnamed-chunk-13-2.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -804,7 +1179,7 @@ patchwork::wrap_plots(rate_plot, decay_plot, ncol = 2)</code></pre>
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
 <pre><code>R version 4.1.0 (2021-05-18)
 Platform: x86_64-apple-darwin17.0 (64-bit)
 Running under: macOS Big Sur 10.16
@@ -820,44 +1195,44 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7     purrr_0.3.4    
- [5] readr_2.0.2     tidyr_1.1.4     tibble_3.1.4    ggplot2_3.3.5  
- [9] tidyverse_1.3.1 workflowr_1.6.2
+ [1] mixtools_1.2.0  forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7    
+ [5] purrr_0.3.4     readr_2.0.2     tidyr_1.1.4     tibble_3.1.4   
+ [9] ggplot2_3.3.5   tidyverse_1.3.1 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] fs_1.5.0            lubridate_1.7.10    bit64_4.0.5        
- [4] httr_1.4.2          rprojroot_2.0.2     tools_4.1.0        
- [7] backports_1.2.1     bslib_0.2.5.1       utf8_1.2.2         
-[10] R6_2.5.1            DBI_1.1.1           colorspace_2.0-2   
-[13] withr_2.4.2         tidyselect_1.1.1    bit_4.0.4          
-[16] curl_4.3.2          compiler_4.1.0      git2r_0.28.0       
-[19] cli_3.0.1           rvest_1.0.1         xml2_1.3.2         
-[22] sandwich_3.0-1      labeling_0.4.2      sass_0.4.0         
-[25] scales_1.1.1        biochemr_0.1.0.9000 mvtnorm_1.1-2      
-[28] pbapply_1.5-0       digest_0.6.28       foreign_0.8-81     
-[31] rmarkdown_2.11      rio_0.5.27          pkgconfig_2.0.3    
-[34] htmltools_0.5.2     plotrix_3.8-2       highr_0.9          
-[37] dbplyr_2.1.1        fastmap_1.1.0       rlang_0.4.11       
-[40] readxl_1.3.1        rstudioapi_0.13     farver_2.1.0       
-[43] jquerylib_0.1.4     generics_0.1.0      zoo_1.8-9          
-[46] jsonlite_1.7.2      gtools_3.9.2        vroom_1.5.5        
-[49] zip_2.2.0           car_3.0-11          magrittr_2.0.1     
-[52] patchwork_1.1.1     Matrix_1.3-4        Rcpp_1.0.7         
-[55] munsell_0.5.0       fansi_0.5.0         abind_1.4-5        
-[58] lifecycle_1.0.1     stringi_1.7.4       multcomp_1.4-17    
-[61] whisker_0.4         yaml_2.2.1          carData_3.0-4      
-[64] MASS_7.3-54         grid_4.1.0          parallel_4.1.0     
-[67] promises_1.2.0.1    crayon_1.4.1        lattice_0.20-44    
-[70] splines_4.1.0       haven_2.4.3         hms_1.1.1          
-[73] knitr_1.36          pillar_1.6.3        codetools_0.2-18   
-[76] reprex_2.0.1        glue_1.4.2          drc_3.0-1          
-[79] evaluate_0.14       data.table_1.14.0   modelr_0.1.8       
-[82] vctrs_0.3.8         tzdb_0.1.2          httpuv_1.6.3       
-[85] cellranger_1.1.0    gtable_0.3.0        assertthat_0.2.1   
-[88] xfun_0.26           openxlsx_4.2.4      broom_0.7.9        
-[91] later_1.3.0         survival_3.2-12     TH.data_1.0-10     
-[94] ellipsis_0.3.2     </code></pre>
-</div>
+ [1] segmented_1.3-4     fs_1.5.0            lubridate_1.7.10   
+ [4] bit64_4.0.5         httr_1.4.2          rprojroot_2.0.2    
+ [7] tools_4.1.0         backports_1.2.1     bslib_0.2.5.1      
+[10] utf8_1.2.2          R6_2.5.1            DBI_1.1.1          
+[13] colorspace_2.0-2    withr_2.4.2         tidyselect_1.1.1   
+[16] bit_4.0.4           curl_4.3.2          compiler_4.1.0     
+[19] git2r_0.28.0        cli_3.0.1           rvest_1.0.1        
+[22] xml2_1.3.2          isoband_0.2.5       sandwich_3.0-1     
+[25] labeling_0.4.2      sass_0.4.0          scales_1.1.1       
+[28] biochemr_0.1.0.9000 mvtnorm_1.1-2       pbapply_1.5-0      
+[31] digest_0.6.28       foreign_0.8-81      rmarkdown_2.11     
+[34] rio_0.5.27          pkgconfig_2.0.3     htmltools_0.5.2    
+[37] plotrix_3.8-2       highr_0.9           dbplyr_2.1.1       
+[40] fastmap_1.1.0       rlang_0.4.11        readxl_1.3.1       
+[43] rstudioapi_0.13     farver_2.1.0        jquerylib_0.1.4    
+[46] generics_0.1.0      zoo_1.8-9           jsonlite_1.7.2     
+[49] gtools_3.9.2        vroom_1.5.5         zip_2.2.0          
+[52] car_3.0-11          magrittr_2.0.1      patchwork_1.1.1    
+[55] Matrix_1.3-4        Rcpp_1.0.7          munsell_0.5.0      
+[58] fansi_0.5.0         abind_1.4-5         lifecycle_1.0.1    
+[61] stringi_1.7.4       multcomp_1.4-17     whisker_0.4        
+[64] yaml_2.2.1          carData_3.0-4       MASS_7.3-54        
+[67] grid_4.1.0          parallel_4.1.0      promises_1.2.0.1   
+[70] crayon_1.4.1        lattice_0.20-44     splines_4.1.0      
+[73] haven_2.4.3         hms_1.1.1           knitr_1.36         
+[76] pillar_1.6.3        codetools_0.2-18    reprex_2.0.1       
+[79] glue_1.4.2          drc_3.0-1           evaluate_0.14      
+[82] data.table_1.14.2   modelr_0.1.8        vctrs_0.3.8        
+[85] tzdb_0.1.2          httpuv_1.6.3        cellranger_1.1.0   
+[88] gtable_0.3.0        kernlab_0.9-29      assertthat_0.2.1   
+[91] xfun_0.26           openxlsx_4.2.4      broom_0.7.9        
+[94] later_1.3.0         viridisLite_0.4.0   survival_3.2-12    
+[97] TH.data_1.1-0       ellipsis_0.3.2     </code></pre>
 </div>
 </div>
 

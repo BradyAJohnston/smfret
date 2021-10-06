@@ -107,7 +107,7 @@ plot2 <- decay_plot +
       resp = double_model$m$fitted()
     ), 
     colour = "tomato", 
-    size = 2
+    size = 1
   )
 
 
@@ -129,7 +129,7 @@ double_model_plot <- function(decay_data, title) {
   
   decay_plot <- decay_data %>% 
     ggplot(aes(time, resp)) + 
-    geom_point() + 
+    geom_line() + 
     theme_light() + 
     labs(x = "Time (s)", 
          y = "Response Units (RU)")
@@ -144,7 +144,8 @@ double_model_plot <- function(decay_data, title) {
                                   "Double Exponential"))
       ), 
       colour = "tomato", 
-      size = 2
+      size = 1, 
+      linetype = "dashed"
     )
   
   double_model <- nls(
@@ -162,18 +163,27 @@ double_model_plot <- function(decay_data, title) {
                                   "Double Exponential"))
       ), 
       colour = "tomato", 
-      size = 2
+      size = 1, 
+      linetype = "dashed"
     )
+  
+  naming_vector <- mdfret::rna_table$html_seq
+  names(naming_vector) <- mdfret::rna_table$rna
   
   print(plot2 + 
           facet_wrap(~model, nrow = 1) + 
-          labs(title = title))
+          labs(title = naming_vector[str_extract(title, "\\d+") %>% 
+                                       str_remove("0")]) + 
+          theme(
+            plot.title = ggtext::element_markdown()
+          )
+        )
 }
 
 double_model_plot(decay_data, "Testing RNA1")
 ```
 
-Apply it to all of the different RNA.
+Attempt to apply this principle to all of the remaining RNA.
 
 ```{r all-rna, }
 #| fig.height = 3
@@ -182,6 +192,50 @@ df %>%
   group_by(rna) %>% 
   nest() %>% 
   mutate(
-    plot = map2(data, rna, possibly(double_model_plot, NA))
-  )
+    plot = map2(data, rna, possibly(double_model_plot, 
+                                    NA,
+                                    quiet = FALSE))
+  ) 
+```
+
+We are unable to fit the models to some of the traces, despite that there should be enough data for the model to fit successfully.
+
+```{r}
+
+df %>% 
+  filter(time > 300, time < 500, rna == "RNA11") %>% 
+  ggplot(aes(time, jitter(resp, 100))) + 
+  geom_line() + 
+  geom_smooth(formula = "y ~ log(x)")
+
+# df %>% 
+#   filter(time > 300, time < 400, rna == "RNA13") %>% 
+#   nls(
+#     jitter(resp, 10000) ~ A1 * exp(-time / t1) + A2 * exp(-time / t2) + y0, 
+#       data = .,
+#       start = list(
+#         y0 = 0,
+#         A1 = 2.6, 
+#         t1 = 67, 
+#         A2 = 13, 
+#         t2 = 12
+#       )) 
+
+df %>% 
+  filter(time > 300, rna == "RNA11") %>% 
+  mutate(resp = jitter(resp, 1)) %>% 
+  biochemr::b_dose_resp(time, resp, rna, .model = drc::EXD.3()) %>% 
+  # biochemr::b_coefs()
+  biochemr::b_plot()
+
+# df %>% 
+#   filter(time > 300, rna == "RNA11") %>% 
+#   mutate(resp = jitter(resp, 1)) %>% 
+#   nls(resp ~ A1 * exp(-time / t1), 
+#       data = ., 
+#       start = list(
+#         A1 = 2.6, 
+#         t1 = 400
+#       )) -> model2
+
 ```

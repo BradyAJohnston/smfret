@@ -9,3 +9,23 @@ editor_options:
 ---
 
 Welcome to my research website.
+
+The first-look and playing around with the new traces that were shared with me from Bishnu:
+
+ * [Looking at New Traces](bishnu_new_traces.html)
+ * [Formatting New Data](formatting_data.html)
+
+Re-plotting some of the FRET distributions:
+
+ * [FRET Distributions](fret-distributions.html)
+ 
+Fitting the SPR Data:
+
+ * [SPR Data](spr-modelling.html)
+ * [Changing the Modelling](differential-fitting.html)
+
+
+`r print(workflowr::wflow_toc())`
+
+
+<iframe src ="https://bradyajohnston.shinyapps.io/smfret-state-fit/" height=1000px width=1000px />
