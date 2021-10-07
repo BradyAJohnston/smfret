@@ -631,16 +631,16 @@ unnamed-chunk-4
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettree78958194829ecc556fc54d6f3d9075451ffa7f74targetblank7895819a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/78958194829ecc556fc54d6f3d9075451ffa7f74" target="_blank">7895819</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettree8679bc315eba6ea01b0a57bfd6d6d5dff9cc8e98targetblank8679bc3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/BradyAJohnston/smfret/tree/8679bc315eba6ea01b0a57bfd6d6d5dff9cc8e98" target="_blank">8679bc3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettree78958194829ecc556fc54d6f3d9075451ffa7f74targetblank7895819a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomBradyAJohnstonsmfrettree8679bc315eba6ea01b0a57bfd6d6d5dff9cc8e98targetblank8679bc3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/78958194829ecc556fc54d6f3d9075451ffa7f74" target="_blank">7895819</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/BradyAJohnston/smfret/tree/8679bc315eba6ea01b0a57bfd6d6d5dff9cc8e98" target="_blank">8679bc3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -692,6 +692,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/8679bc315eba6ea01b0a57bfd6d6d5dff9cc8e98/analysis/overview.Rmd" target="_blank">8679bc3</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-07
+</td>
+<td>
+more writing on summary
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/BradyAJohnston/smfret/8679bc315eba6ea01b0a57bfd6d6d5dff9cc8e98/docs/overview.html" target="_blank">8679bc3</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-07
+</td>
+<td>
+more writing on summary
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -777,8 +811,14 @@ added overview
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>transitions <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/transitions.rds&quot;</span>)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>spr <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;~/Dropbox/BondLab/Data/SPR/spr.rds&quot;</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>spr_coef <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;~/Dropbox/BondLab/Data/SPR/fitted-data.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>live_flow <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/live-flow.rds&quot;</span>)</span></code></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rna =</span> <span class="fu">str_trim</span>(rna)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">rna =</span> <span class="fu">factor</span>(rna,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels =</span> <span class="fu">reorder</span>(rna, <span class="fu">str_extract</span>(rna, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)), </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels =</span> <span class="fu">paste</span>(<span class="st">&quot;RNA&quot;</span>, <span class="fu">str_pad</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="dv">2</span>, <span class="st">&quot;left&quot;</span>, <span class="at">pad =</span> <span class="st">&quot;0&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;&quot;</span>))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>live_flow <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/live-flow.rds&quot;</span>)</span></code></pre></div>
 <div id="useful-functions" class="section level4">
 <h4>Useful Functions</h4>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>time_density_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
@@ -1277,57 +1317,184 @@ Reaction diagram of proposed two-step binding interaction that PPR proteins unde
 </div>
 <div id="rate-constants" class="section level2">
 <h2>Rate Constants</h2>
+<div id="dissociation-rates" class="section level3">
+<h3>Dissociation Rates</h3>
 <p>From the fitting fo the exponential decay models, we are able to get rate constants for the loosening and the dissociation steps that the protein undergoes.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>t1plot <span class="ot">&lt;-</span> spr_coef <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">factor</span>(rna, <span class="at">levels =</span> <span class="fu">reorder</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    rna, <span class="fu">str_extract</span>(rna, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)))) <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> t1 <span class="sc">-</span> t1.err, <span class="at">xmax =</span> t1 <span class="sc">+</span> t1.err),</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> t1, <span class="at">colour =</span> rna)) <span class="sc">+</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;t1 (s)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;RNA&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="cn">NA</span>)) <span class="sc">+</span> </span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> mdfret<span class="sc">::</span>rna_table<span class="sc">$</span>html_seq[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>]</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">family =</span> <span class="st">&quot;mono&quot;</span>, <span class="at">size =</span> <span class="dv">6</span>)</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>t2plot <span class="ot">&lt;-</span> spr_coef <span class="sc">%&gt;%</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">factor</span>(rna, <span class="at">levels =</span> <span class="fu">reorder</span>(</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    rna, <span class="fu">str_extract</span>(rna, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>)))) <span class="sc">+</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> t2 <span class="sc">-</span> t2.err, <span class="at">xmax =</span> t2 <span class="sc">+</span> t1.err),</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>                  <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> t2, <span class="at">colour =</span> rna)) <span class="sc">+</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;t2 (s)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;RNA&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="cn">NA</span>)) <span class="sc">+</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(</span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>  t1plot, </span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  t2plot, </span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>  t2plot <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;log10(t2) (s)&quot;</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>()</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> patchwork<span class="sc">::</span><span class="fu">plot_annotation</span>(</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">&quot;Rates of Decay&quot;</span>, </span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">subtitle =</span> <span class="st">&quot;Calcultaed half lives of for the double-exponential decay models.&quot;</span></span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>some_theme <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">family =</span> <span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>t1plot <span class="ot">&lt;-</span> spr_coef <span class="sc">%&gt;%</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ggplot(aes(y = factor(rna, levels = reorder(rna, str_extract(rna, &quot;\\d+&quot;))))) +</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> rna)) <span class="sc">+</span> </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_errorbarh(aes(xmin = t1 - t1.err, xmax = t1 + t1.err),</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                 height = 0.4) +</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> t1, <span class="at">colour =</span> rna), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  ggtext<span class="sc">::</span><span class="fu">geom_richtext</span>(</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> mdfret<span class="sc">::</span>rna_table[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, ], </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> html_seq, </span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="fu">paste</span>(<span class="st">&quot;RNA&quot;</span>, <span class="fu">str_pad</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="dv">2</span>, <span class="st">&quot;left&quot;</span>, <span class="at">pad =</span> <span class="st">&quot;0&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;&quot;</span>),</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="dv">0</span>), </span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="cn">NA</span>,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">0</span>, </span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">label.fill =</span> <span class="cn">NA</span>, </span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">label.color =</span> <span class="cn">NA</span>,</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">&quot;mono&quot;</span>, </span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.2</span>, </span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fl">0.2</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;t1 (s)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;RNA&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="cn">NA</span>)) <span class="sc">+</span> </span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scale_y_discrete(</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   labels = mdfret::rna_table$html_seq[1:13]</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ) + </span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">some_theme</span>()</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>t2plot <span class="ot">&lt;-</span> spr_coef <span class="sc">%&gt;%</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">factor</span>(rna, <span class="at">levels =</span> <span class="fu">reorder</span>(</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    rna, <span class="fu">str_extract</span>(rna, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>)))) <span class="sc">+</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> t2 <span class="sc">-</span> t2.err, <span class="at">xmax =</span> t2 <span class="sc">+</span> t1.err),</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>                  <span class="at">height =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> t2, <span class="at">colour =</span> rna), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;t2 (s)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;RNA&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="cn">NA</span>)) <span class="sc">+</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">some_theme</span>() <span class="sc">+</span></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>  t1plot, </span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>  t2plot, </span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>  t2plot <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;log10(t2) (s)&quot;</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>()</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> patchwork<span class="sc">::</span><span class="fu">plot_annotation</span>(</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">&quot;Rates of Decay&quot;</span>, </span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">subtitle =</span> <span class="st">&quot;Calcultaed half lives of for the double-exponential decay models.&quot;</span></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/overview.Rmd/half-life-plot-1.png" alt="Fitted rates of decay for the double-exponential model for each of RNA samples where there was a sufficient enough response to model. RNA2 and RNA5 did not show enough of a response to model." width="768" />
 <p class="caption">
 Fitted rates of decay for the double-exponential model for each of RNA samples where there was a sufficient enough response to model. RNA2 and RNA5 did not show enough of a response to model.
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-half-life-plot-1">
+Past versions of half-life-plot-1.png
+</button>
+</p>
+<div id="fig-half-life-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/BradyAJohnston/smfret/blob/8679bc315eba6ea01b0a57bfd6d6d5dff9cc8e98/docs/figure/overview.Rmd/half-life-plot-1.png" target="_blank">8679bc3</a>
+</td>
+<td>
+bradyajohnston
+</td>
+<td>
+2021-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The plotting of these values show some interesting groupings of the RNA that were tested. The <code>t1</code> values do not vary much between samples, indicating this is likely the rate change of the protein completely dissociating from the bound RNA. The three samples that do have noticeably longer half lives are RNA9-11, which are the the three RNA which are double the length of the other RNA targets.</p>
-<p>It is likely</p>
+</div>
+<div id="association-rates" class="section level3">
+<h3>Association Rates</h3>
+<p>If we also look at the on-rates, we can see a story developing.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>spr_coef <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> rna, <span class="at">x =</span> kon)) <span class="sc">+</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">y =</span> rna, <span class="at">yend =</span> rna, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> kon), </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">colour =</span> <span class="st">&quot;gray50&quot;</span>, </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> rna), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  ggtext<span class="sc">::</span><span class="fu">geom_richtext</span>(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> html_seq, <span class="at">x =</span> <span class="dv">0</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> mdfret<span class="sc">::</span>rna_table[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, ],</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fl">0.3</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">label.padding =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">0</span>, </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="cn">NA</span>, </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">label.color =</span> <span class="cn">NA</span>, </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">&quot;mono&quot;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;K_{on} M^{-1} s^{-1}&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">some_theme</span>() <span class="sc">+</span> </span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="figure/overview.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="koff" class="section level3">
+<h3>Koff</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>koff_log10 <span class="ot">&lt;-</span> spr_coef <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> rna, <span class="at">x =</span> koff)) <span class="sc">+</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">y =</span> rna, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">x =</span> <span class="dv">0</span>, </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">yend =</span> rna, </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xend =</span> koff), </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">colour =</span> <span class="st">&quot;gray50&quot;</span>, </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> rna), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;k_{off} M^{-1} s^{-1}&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">some_theme</span>() <span class="sc">+</span> </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="cn">NA</span>)) <span class="sc">+</span> </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  simpleThemes<span class="sc">::</span><span class="fu">strip_axis</span>(<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>koff <span class="ot">&lt;-</span> spr_coef <span class="sc">%&gt;%</span> </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> rna, <span class="at">x =</span> koff)) <span class="sc">+</span> </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">y =</span> rna, </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>                   <span class="at">x =</span> <span class="dv">0</span>, </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>                   <span class="at">yend =</span> rna, </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xend =</span> koff), </span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">colour =</span> <span class="st">&quot;gray50&quot;</span>, </span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> rna), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>  ggtext<span class="sc">::</span><span class="fu">geom_richtext</span>(</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> html_seq, <span class="at">x =</span> <span class="dv">0</span>),</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> mdfret<span class="sc">::</span>rna_table[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, ],</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fl">0.3</span>,</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">label.padding =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">0</span>, </span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="cn">NA</span>, </span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">label.color =</span> <span class="cn">NA</span>, </span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">&quot;mono&quot;</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;k_{off} M^{-1} s^{-1}&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">some_theme</span>() <span class="sc">+</span> </span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(koff, koff_log10)</span></code></pre></div>
+<p><img src="figure/overview.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1335,7 +1502,7 @@ Fitted rates of decay for the double-exponential model for each of RNA samples w
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
 <pre><code>R version 4.1.0 (2021-05-18)
 Platform: x86_64-apple-darwin17.0 (64-bit)
 Running under: macOS Big Sur 10.16
@@ -1356,27 +1523,28 @@ other attached packages:
  [9] ggplot2_3.3.5   tidyverse_1.3.1
 
 loaded via a namespace (and not attached):
- [1] segmented_1.3-4   ggtext_0.1.1      fs_1.5.0          lubridate_1.7.10 
- [5] webshot_0.5.2     httr_1.4.2        rprojroot_2.0.2   tools_4.1.0      
- [9] backports_1.2.1   bslib_0.2.5.1     utf8_1.2.2        R6_2.5.1         
-[13] DBI_1.1.1         colorspace_2.0-2  withr_2.4.2       tidyselect_1.1.1 
-[17] compiler_4.1.0    git2r_0.28.0      cli_3.0.1         rvest_1.0.1      
-[21] xml2_1.3.2        isoband_0.2.5     labeling_0.4.2    sass_0.4.0       
-[25] scales_1.1.1      digest_0.6.28     mixtools_1.2.0    rmarkdown_2.11   
-[29] pkgconfig_2.0.3   htmltools_0.5.2   dbplyr_2.1.1      fastmap_1.1.0    
-[33] highr_0.9         htmlwidgets_1.5.3 rlang_0.4.11      readxl_1.3.1     
-[37] rstudioapi_0.13   jquerylib_0.1.4   farver_2.1.0      generics_0.1.0   
-[41] jsonlite_1.7.2    magrittr_2.0.1    mdfret_0.1.4      patchwork_1.1.1  
-[45] Matrix_1.3-4      Rcpp_1.0.7        munsell_0.5.0     fansi_0.5.0      
-[49] lifecycle_1.0.1   stringi_1.7.4     whisker_0.4       yaml_2.2.1       
-[53] MASS_7.3-54       grid_4.1.0        promises_1.2.0.1  crayon_1.4.1     
-[57] lattice_0.20-44   haven_2.4.3       splines_4.1.0     gridtext_0.1.4   
-[61] hms_1.1.1         knitr_1.36        pillar_1.6.3      markdown_1.1     
-[65] reprex_2.0.1      glue_1.4.2        evaluate_0.14     modelr_0.1.8     
-[69] vctrs_0.3.8       tzdb_0.1.2        httpuv_1.6.3      cellranger_1.1.0 
-[73] gtable_0.3.0      kernlab_0.9-29    assertthat_0.2.1  xfun_0.26        
-[77] broom_0.7.9       later_1.3.0       survival_3.2-12   viridisLite_0.4.0
-[81] workflowr_1.6.2   ellipsis_0.3.2   </code></pre>
+ [1] segmented_1.3-4    ggtext_0.1.1       fs_1.5.0           lubridate_1.7.10  
+ [5] webshot_0.5.2      httr_1.4.2         rprojroot_2.0.2    latex2exp_0.5.0   
+ [9] tools_4.1.0        backports_1.2.1    bslib_0.2.5.1      utf8_1.2.2        
+[13] R6_2.5.1           DBI_1.1.1          colorspace_2.0-2   withr_2.4.2       
+[17] tidyselect_1.1.1   compiler_4.1.0     git2r_0.28.0       cli_3.0.1         
+[21] rvest_1.0.1        simpleThemes_0.1.0 xml2_1.3.2         isoband_0.2.5     
+[25] labeling_0.4.2     sass_0.4.0         scales_1.1.1       digest_0.6.28     
+[29] mixtools_1.2.0     rmarkdown_2.11     pkgconfig_2.0.3    htmltools_0.5.2   
+[33] dbplyr_2.1.1       fastmap_1.1.0      highr_0.9          htmlwidgets_1.5.3 
+[37] rlang_0.4.11       readxl_1.3.1       rstudioapi_0.13    jquerylib_0.1.4   
+[41] farver_2.1.0       generics_0.1.0     jsonlite_1.7.2     magrittr_2.0.1    
+[45] mdfret_0.1.4       patchwork_1.1.1    Matrix_1.3-4       Rcpp_1.0.7        
+[49] munsell_0.5.0      fansi_0.5.0        lifecycle_1.0.1    stringi_1.7.4     
+[53] whisker_0.4        yaml_2.2.1         MASS_7.3-54        grid_4.1.0        
+[57] promises_1.2.0.1   crayon_1.4.1       lattice_0.20-44    haven_2.4.3       
+[61] splines_4.1.0      gridtext_0.1.4     hms_1.1.1          knitr_1.36        
+[65] pillar_1.6.3       markdown_1.1       reprex_2.0.1       glue_1.4.2        
+[69] evaluate_0.14      modelr_0.1.8       vctrs_0.3.8        tzdb_0.1.2        
+[73] httpuv_1.6.3       cellranger_1.1.0   gtable_0.3.0       kernlab_0.9-29    
+[77] assertthat_0.2.1   xfun_0.26          broom_0.7.9        later_1.3.0       
+[81] survival_3.2-12    viridisLite_0.4.0  workflowr_1.6.2    ellipsis_0.3.2    </code></pre>
+</div>
 </div>
 </div>
 </div>

@@ -20,8 +20,21 @@ knitr::opts_chunk$set(warning = FALSE,
 traces <- readRDS("data/all-traces.rds")
 transitions <- readRDS("data/transitions.rds")
 spr <- readRDS("~/Dropbox/BondLab/Data/SPR/spr.rds")
+as_tibble() %>% 
+  mutate(rna = str_trim(rna)) %>% 
+  mutate(
+    rna = factor(rna,
+                 levels = reorder(rna, str_extract(rna, "\\d+")), 
+                 labels = paste("RNA", str_pad(1:13, 2, "left", pad = "0"), sep = ""))
+  )
 spr_coef <- read.csv("~/Dropbox/BondLab/Data/SPR/fitted-data.csv") %>% 
-  as_tibble()
+  as_tibble() %>% 
+  mutate(rna = str_trim(rna)) %>% 
+  mutate(
+    rna = factor(rna,
+                 levels = reorder(rna, str_extract(rna, "\\d+")), 
+                 labels = paste("RNA", str_pad(1:13, 2, "left", pad = "0"), sep = ""))
+  )
 live_flow <- readRDS("data/live-flow.rds")
 ```
 
@@ -286,49 +299,70 @@ The states in this diagram can be representative of the different FRET states th
 nomnoml("#direction: down
 [low-FRET]->Association [mid-FRET]
 [mid-FRET]->Dissociation [low-FRET]
-[mid-FRET]->PPR Tightening [high-FRET]
-[high-FRET] -> PPR Loosening[mid-FRET]
+[mid-FRET]->PPR Loosening [high-FRET]
+[high-FRET] -> PPR Tightening[mid-FRET]
 ")
 ```
 
 ## Rate Constants
+### Dissociation Rates
 
 From the fitting fo the exponential decay models, we are able to get rate constants for the loosening and the dissociation steps that the protein undergoes.
 
 ```{r half-life-plot, message=FALSE, error=FALSE, warning=FALSE}
-#| fig.height: 6
+#| fig.height: 7
 #| fig.width: 8
 #| fig.cap: Fitted rates of decay for the double-exponential model for each of RNA samples where there was a sufficient enough response to model. RNA2 and RNA5 did not show enough of a response to model.
+
+some_theme <- function() {
+  theme(
+    panel.grid.major.y = element_blank(), 
+    axis.title.y = element_blank(),
+    axis.text.y = ggtext::element_markdown(family = "mono")
+  )
+}
+
 t1plot <- spr_coef %>%
-  ggplot(aes(y = factor(rna, levels = reorder(
-    rna, str_extract(rna, "\\d+")
-)))) +
-  geom_errorbarh(aes(xmin = t1 - t1.err, xmax = t1 + t1.err),
-                  height = 0.2) +
-  geom_point(aes(x = t1, colour = rna)) +
+   
+  # ggplot(aes(y = factor(rna, levels = reorder(rna, str_extract(rna, "\\d+"))))) +
+  ggplot(aes(y = rna)) + 
+  # geom_errorbarh(aes(xmin = t1 - t1.err, xmax = t1 + t1.err),
+  #                 height = 0.4) +
+  geom_point(aes(x = t1, colour = rna), size = 3) +
+  ggtext::geom_richtext(
+    data = mdfret::rna_table[1:13, ], 
+    aes(label = html_seq, 
+        y = paste("RNA", str_pad(1:13, 2, "left", pad = "0"), sep = ""),
+        x = 0), 
+    fill = NA,
+    hjust = 0, 
+    label.fill = NA, 
+    label.color = NA,
+    family = "mono", 
+    size = 2.2, 
+    nudge_y = 0.2
+  ) + 
   theme_light() +
   labs(x = "t1 (s)", y = "RNA") + 
   guides(colour = "none") + 
   xlim(c(0,NA)) + 
-  scale_y_discrete(
-    labels = mdfret::rna_table$html_seq[1:13]
-  ) + 
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = ggtext::element_markdown(family = "mono", size = 6)
-  )
+  # scale_y_discrete(
+  #   labels = mdfret::rna_table$html_seq[1:13]
+  # ) + 
+  some_theme()
 
 t2plot <- spr_coef %>%
   ggplot(aes(y = factor(rna, levels = reorder(
     rna, str_extract(rna, "\\d+")
 )))) +
   geom_errorbarh(aes(xmin = t2 - t2.err, xmax = t2 + t1.err),
-                  height = 0.2) +
-  geom_point(aes(x = t2, colour = rna)) +
+                  height = 0.4) +
+  geom_point(aes(x = t2, colour = rna), size = 3) +
   theme_light() +
   labs(x = "t2 (s)", y = "RNA") + 
   guides(colour = "none") + 
   xlim(c(0,NA)) +
+  some_theme() +
   theme(axis.text.y = element_blank(), 
         axis.title.y = element_blank(), 
         axis.ticks.y = element_blank())
@@ -345,4 +379,136 @@ patchwork::wrap_plots(
 
 The plotting of these values show some interesting groupings of the RNA that were tested. The `t1` values do not vary much between samples, indicating this is likely the rate change of the protein completely dissociating from the bound RNA. The three samples that do have noticeably longer half lives are RNA9-11, which are the the three RNA which are double the length of the other RNA targets.
 
-It is likely
+
+### Association Rates
+
+If we also look at the on-rates, we can see a story developing.
+```{r}
+spr_coef %>% 
+  ggplot(aes(y = rna, x = kon)) + 
+  geom_segment(aes(y = rna, yend = rna, x = 0, xend = kon), 
+               colour = "black", 
+               alpha = 0.3) +
+  geom_point(aes(colour = rna), size = 3) + 
+  # ggtext::geom_richtext(
+  #   aes(label = html_seq, x = 0),
+  #   data = mdfret::rna_table[1:13, ],
+  #   nudge_y = 0.3,
+  #   label.padding = unit(0, "lines"),
+  #   hjust = 0, 
+  #   fill = NA, 
+  #   label.color = NA, 
+  #   family = "mono"
+  # ) + 
+  labs(x = latex2exp::TeX("K_{on} M^{-1} s^{-1}")) +
+  theme_light() + 
+  some_theme() + 
+  theme(legend.position = "")
+```
+
+### Koff
+```{r}
+koff_log10 <- spr_coef %>% 
+  ggplot(aes(y = rna, x = koff)) + 
+  geom_segment(aes(y = rna, 
+                   x = 0, 
+                   yend = rna, 
+                   xend = koff), 
+               colour = "black", 
+               alpha = 0.3) +
+  geom_point(aes(colour = rna), size = 3) + 
+  labs(x = latex2exp::TeX("log10(k_{off}) M^{-1} s^{-1}")) +
+  theme_light() + 
+  some_theme() + 
+  theme(legend.position = "") + 
+  scale_x_log10(limits = c(100, NA)) + 
+  simpleThemes::strip_axis("y")
+
+koff <- spr_coef %>% 
+  ggplot(aes(y = rna, x = koff)) + 
+  geom_segment(aes(y = rna, 
+                   x = 0, 
+                   yend = rna, 
+                   xend = koff), 
+               colour = "black", 
+               alpha = 0.3) +
+  geom_point(aes(colour = rna), size = 3) + 
+  # ggtext::geom_richtext(
+  #   aes(label = html_seq, x = 0),
+  #   data = mdfret::rna_table[1:13, ],
+  #   nudge_y = 0.3,
+  #   label.padding = unit(0, "lines"),
+  #   hjust = 0, 
+  #   fill = NA, 
+  #   label.color = NA, 
+  #   family = "mono"
+  # ) + 
+  labs(x = latex2exp::TeX("k_{off} M^{-1} s^{-1}")) +
+  theme_light() + 
+  some_theme() + 
+  theme(legend.position = "")
+
+patchwork::wrap_plots(koff, koff_log10)
+```
+
+
+## Fitting to the Association Curves
+
+```{r}
+spr[1:nrow(spr) %% 10 == 0, ] %>% 
+  rename(resp = Response, rna = RNA) %>% 
+  filter(time > 0, time < 300) -> values
+
+  ggplot(aes(time, resp, colour = rna)) + 
+  scale_colour_discrete(breaks = unique(values))
+  geom_line()
+```
+
+
+```{r}
+spr[1:nrow(spr) %% 10 == 0, ] %>% 
+  rename(resp = Response, rna = RNA) %>% 
+  filter(time > 0, time < 300) %>% 
+  filter(rna == "RNA01") -> data1
+  
+  # plot
+  # drc::drm(resp ~ time, fct = drc::EXD.2(), data = .) %>%
+  # 
+  data1 %>% 
+  nls(resp ~ SSasymp(time, Asym = Asym, R0, lrc), data = .) -> model
+model$m
+par(col = "black")
+plot(data1$time, data1$resp, col = "gray70")
+lines(model$m$fitted(), col = "red")
+```
+
+
+```{r}
+live_flow %>% 
+  mutate(rna = "1") %>% 
+  group_by(rna, mol) %>% 
+  mutate(
+    from = state,
+    to = lead(from), # get what the current state will transition to (next row)
+    new_state = lag(from) != from, 
+    new_state = if_else(is.na(new_state), FALSE, new_state),
+    state_no = 1 + cumsum(new_state)
+  ) %>% 
+  group_by(rna, mol, state_no) %>% 
+  summarise(
+    frames = n(),         # number of frames in this state
+    time = n() / 5,       # numer of frames in seconds (frames = 0.2 s)
+    from = last(from),    # get the last entry in from
+    to = last(to)         # get the last entry in to
+  ) %>% 
+  tdp_plot() +
+  coord_cartesian(xlim = c(0,1.2), ylim = c(0,1.2))
+  # geom_point()
+  # head
+  ggplot(aes(from, to)) + 
+  geom_point() +
+  geom_density_2d(contour_var = "ndensity", bins = 20) + 
+  xlim(c(0,1.4)) +
+  ylim(c(0,1.4))
+```
+
