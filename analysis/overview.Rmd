@@ -14,12 +14,14 @@ Setup code.
 ```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
 knitr::opts_chunk$set(warning = FALSE, 
-                      cache = TRUE, 
-                      autodep = TRUE)
+                      autodep = TRUE
+                      )
 
 traces <- readRDS("data/all-traces.rds")
 transitions <- readRDS("data/transitions.rds")
 spr <- readRDS("~/Dropbox/BondLab/Data/SPR/spr.rds")
+spr_coef <- read.csv("~/Dropbox/BondLab/Data/SPR/fitted-data.csv") %>% 
+  as_tibble()
 live_flow <- readRDS("data/live-flow.rds")
 ```
 
@@ -264,3 +266,83 @@ df %>%
 ```
 
 All of these results point to some intermediate step in the binding and unbinding process, that so far has not been captured by the bound and unbound structures of the dsnPPR10 protein, and no mention of such binding mechanisms or intermediates appears in the PPR literature.
+
+```{r binding-diagram, fig.height=5, fig.align='center'}
+#| fig.cap: Reaction diagram of proposed two-step binding interaction that PPR proteins undergo when interacting with RNA.
+library(nomnoml)
+nomnoml("#direction: down
+[P + R]->Association [PR]
+[PR]->Dissociation [P + R]
+[PR]->PPR Tightening [PR*]
+[PR*] -> PPR Loosening[PR]
+")
+
+```
+
+The states in this diagram can be representative of the different FRET states that are observed.
+
+```{r fret-diagram, fig.height=5, fig.align='center'}
+#| fig.cap: Reaction diagram of proposed two-step binding interaction that PPR proteins undergo when interacting with RNA, with the states labelled by their respective FRET states.
+nomnoml("#direction: down
+[low-FRET]->Association [mid-FRET]
+[mid-FRET]->Dissociation [low-FRET]
+[mid-FRET]->PPR Tightening [high-FRET]
+[high-FRET] -> PPR Loosening[mid-FRET]
+")
+```
+
+## Rate Constants
+
+From the fitting fo the exponential decay models, we are able to get rate constants for the loosening and the dissociation steps that the protein undergoes.
+
+```{r half-life-plot, message=FALSE, error=FALSE, warning=FALSE}
+#| fig.height: 6
+#| fig.width: 8
+#| fig.cap: Fitted rates of decay for the double-exponential model for each of RNA samples where there was a sufficient enough response to model. RNA2 and RNA5 did not show enough of a response to model.
+t1plot <- spr_coef %>%
+  ggplot(aes(y = factor(rna, levels = reorder(
+    rna, str_extract(rna, "\\d+")
+)))) +
+  geom_errorbarh(aes(xmin = t1 - t1.err, xmax = t1 + t1.err),
+                  height = 0.2) +
+  geom_point(aes(x = t1, colour = rna)) +
+  theme_light() +
+  labs(x = "t1 (s)", y = "RNA") + 
+  guides(colour = "none") + 
+  xlim(c(0,NA)) + 
+  scale_y_discrete(
+    labels = mdfret::rna_table$html_seq[1:13]
+  ) + 
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = ggtext::element_markdown(family = "mono", size = 6)
+  )
+
+t2plot <- spr_coef %>%
+  ggplot(aes(y = factor(rna, levels = reorder(
+    rna, str_extract(rna, "\\d+")
+)))) +
+  geom_errorbarh(aes(xmin = t2 - t2.err, xmax = t2 + t1.err),
+                  height = 0.2) +
+  geom_point(aes(x = t2, colour = rna)) +
+  theme_light() +
+  labs(x = "t2 (s)", y = "RNA") + 
+  guides(colour = "none") + 
+  xlim(c(0,NA)) +
+  theme(axis.text.y = element_blank(), 
+        axis.title.y = element_blank(), 
+        axis.ticks.y = element_blank())
+
+patchwork::wrap_plots(
+  t1plot, 
+  t2plot, 
+  t2plot + labs(x = "log10(t2) (s)") + scale_x_log10()
+  ) + patchwork::plot_annotation(
+  title = "Rates of Decay", 
+  subtitle = "Calcultaed half lives of for the double-exponential decay models."
+)
+```
+
+The plotting of these values show some interesting groupings of the RNA that were tested. The `t1` values do not vary much between samples, indicating this is likely the rate change of the protein completely dissociating from the bound RNA. The three samples that do have noticeably longer half lives are RNA9-11, which are the the three RNA which are double the length of the other RNA targets.
+
+It is likely
