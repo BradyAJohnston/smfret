@@ -244,14 +244,9 @@ df <- spr[seq(1, nrow(spr), 10), ] %>%
   rename(rna = RNA, resp = Response) %>% 
   filter(rna == "RNA01", time > 300)
 
-model <-  df %>% 
-  nls(resp ~ SSasymp(time, R0 = A1, lrc = t1,  Asym = Asym), data = .)
+model <-  nls(resp ~ SSasymp(time, R0 = A1, lrc = t1,  Asym = Asym), data = df)
 
-model2 <- df %>% 
-  nls(
-    resp ~ SSbiexp(time, A1, t1, A2, t2), 
-    data = .
-  )
+model2 <- nls(resp ~ SSbiexp(time, A1, t1, A2, t2), data = df)
 
 lines <- data.frame(
   time = df$time,
@@ -263,11 +258,12 @@ lines <- data.frame(
 df %>% 
   ggplot(aes(time, resp)) + 
   geom_line(colour = "red", alpha = 0.5, size = 1) +
+
   geom_line(
     data = lines, 
     aes(linetype = name), 
-    size = 1, 
-    alpha = 0.6
+    size = 0.5, 
+    alpha = 1
   ) +
   scale_linetype_manual(values = c("dashed", "dotted")) +
   theme_light() + 
@@ -276,6 +272,7 @@ df %>%
        y = "Response Units (RU)") + 
   theme(legend.position = c(0.8, 0.8), 
         legend.background = element_rect(colour = "gray70"))
+
 ```
 
 All of these results point to some intermediate step in the binding and unbinding process, that so far has not been captured by the bound and unbound structures of the dsnPPR10 protein, and no mention of such binding mechanisms or intermediates appears in the PPR literature.

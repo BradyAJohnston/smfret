@@ -1,0 +1,133 @@
+---
+  title: "Extracting and Cleaning the bulk-FRET Binding Data"
+author: "Brady Johnston"
+date: "2021-10-08"
+output:
+  workflowr::wflow_html:
+  code_folding: hide
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup}
+library(tidyverse)
+```
+
+# Getting the Data
+
+```{r}
+fl <- list.files("~/Dropbox/BondLab/Data/Typhoon Images/190830/imagejprocessed/", pattern = ".csv", 
+           full.names = TRUE)
+# fl[1]
+lapply(fl, function(x) {
+  df <- readr::read_csv(x, col_types = cols(), progress = TRUE)
+  df$file <- x
+  df
+}) %>% 
+  do.call(rbind, .) -> df
+
+df <- df %>% 
+  select(Min, Max, Row, Column, Absorbance, file) %>% 
+  mutate(file = str_extract(file, "(?<=\\/\\/).+(?=.tif)")) %>% 
+  mutate(sample = str_extract(file, "\\d{2}_\\d{2}"), 
+         channel = str_extract(file, "(?<=-).+$")) %>% 
+   mutate(channel = if_else(str_detect(channel, "FRET"), "FRET", channel))
+```
+
+## Peak at the plate data.
+
+We can have a quick look at all of the plate data, to remember how the rows and columns were arranged.
+
+```{r}
+df %>%
+  filter(channel == "FRET", sample == "01_02") %>%
+  mutate(Row = factor(Row, levels = c(LETTERS[8:1]))) %>%
+  ggplot(
+    aes(
+      x      = Column,
+      colour = Absorbance,
+      y      = Row
+      )) +
+  geom_point(size = 12) +
+  scale_colour_viridis_c(option = "B",
+                         limits = c(3.2, NA),
+                         direction = 1) +
+  theme_light() +
+  scale_x_continuous(position = "top", breaks = c(1:12)) +
+  theme(aspect.ratio = 8 / 12)
+```
+
+We can see that the increase intensity goes across the columns, so the RNA were in the rows A-C and D-F respectively, with G being the protein-only sample. Now we can calculated the FRET from the *transfer* and *donor* channels.
+
+```{r}
+df <- df %>% 
+  mutate(
+    rna = case_when(
+      Row %in% c(c("A", "B", "C")) ~ str_extract(sample, "\\d{2}(?=_)"),
+      Row %in% c(c("D", "E", "F")) ~ str_extract(sample, "(?<=_)\\d{2}"), 
+      Row %in% "G" & Column %in% c(1:3) ~ "negative", 
+      TRUE ~ "empty"
+    ), 
+    conc = 1e3 / 2 ^ (Column - 1)
+  )
+df
+```
+
+The RNA and the concentrations have been assigned, we can now also `pivot_wider()` to have a separate column for each channel.
+
+```{r pivot-wider}
+df <- df %>% 
+  pivot_wider(
+    names_from = channel, 
+    values_from = Absorbance, 
+    id_cols = c(rna, sample, Row, Column, conc)
+  ) %>% 
+  unnest(Cy3, Cy5, FRET) %>% 
+  rename(row = Row, col = Column, don = Cy3, acc = Cy5, trans = FRET) %>% 
+  mutate(FRET = trans / (don + trans))
+```
+
+Hmm that doesn't seem right, why aren't there values in the Cy5 and the FRET columns? Seems that it is incorrectly grouping things separately.
+
+```{r}
+df %>% 
+  filter(as.numeric(rna) %in% 1:13) %>% 
+  ggplot(aes(conc, FRET, colour = rna)) + 
+  geom_point() + 
+  facet_wrap(~rna, scales = "free_y") + 
+  scale_x_log10()
+
+fit_df <- df %>% 
+  mutate(id = paste(sample, rna, sep = ":")) %>% 
+  biochemr::b_binding(conc, FRET, id)
+
+fit_df %>% 
+  filter(!str_detect(id, "empty|negative")) %>%
+  biochemr::b_plot(colour = id) + 
+  facet_wrap(~id, scales = "free_y") + 
+  scale_x_log10()
+
+source("~/git/thesis/figures/chap4/bulk-FRET/rna-binding.R")
+
+df <- rename(df, rna = sample)
+
+df <- df %>% filter(!(rna %in% c("05", "06")))
+
+trimmed_fit <- fit_df %>% filter(str_detect(id, ":01|:02|:05|:06")) %>% 
+  rename(rna = id) %>% 
+  mutate(rna = str_extract(rna, "(?<=:)\\d{2}")) %>% 
+  .[2:5, ]
+
+cdf <- rbind(trimmed_fit, df)
+
+cdf
+```
+
+Plot out the values.
+
+```{r}
+cdf %>% 
+  arrange(rna) %>% 
+  
+  biochemr::b_plot()
+```
